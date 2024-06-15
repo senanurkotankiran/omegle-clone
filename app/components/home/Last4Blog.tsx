@@ -29,12 +29,21 @@ const Last3Blog = () => {
     fetchBlogs();
   }, []);
 
+  useEffect(() => {
+    const fetchCards = async () => {
+      const res = await fetch('/api/categories');
+       await res.json();
+    };
+
+    fetchCards();
+  }, []);
+
+
   const truncateContent = (content: string, length: number) => {
     return content.length > length ? content.slice(0, length) + '...' : content;
   };
 
-  const latestBlogs = blogs
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const latestBlogs = blogs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 3);
 
   return (

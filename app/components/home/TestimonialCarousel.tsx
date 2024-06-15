@@ -11,11 +11,11 @@ type Testimonial = {
 
 // Örnek yorum verileri
 const testimonialsData: Testimonial[] = [
-  { id: 1, text: "Bu harika bir ürün!", author: "Kullanıcı A" },
-  { id: 2, text: "Gerçekten çok memnunum.", author: "Kullanıcı B" },
-  { id: 3, text: "Tavsiye ederim.", author: "Kullanıcı C" },
-  { id: 4, text: "Çok iyi bir deneyim.", author: "Kullanıcı D" },
-  { id: 5, text: "Mükemmel!", author: "Kullanıcı E" },
+  { id: 1, text: "I love OMEGLE!", author: "James Doe" },
+  { id: 2, text: "A great site to meet new people.", author: "Noah Thompson" },
+  { id: 3, text: "Very good experience.", author: "Olivia Browns" },
+  { id: 4, text: "An uninterrupted and secure platform.", author: "Ethan Martinez" },
+  { id: 5, text: "Perfecto!", author: "Benjamin Taylor" },
 ];
 
 const TestimonialsCarousel: React.FC = () => {

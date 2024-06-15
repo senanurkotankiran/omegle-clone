@@ -1,9 +1,21 @@
 import React from 'react'
+import Navbar from '../components/navbar/Navbar'
+import Navbar2 from '../components/navbar2/Navbar2'
+import Footer from '../components/footer/page'
 
 const TermsOfServices = () => {
     return (
-
-        <div className=" flex flex-col items-center justify-center mt-4">
+<div>
+<div className="pt-4">
+        <div className="fixed top-0 w-full z-10">
+          <Navbar/>
+        </div>
+        <div className="mt-32 md:mt-16">
+          <Navbar2/>
+        </div>
+      </div>
+    <div className=" flex flex-col items-center justify-center mt-4">
+            
             <div className="min-h-screen">
                 <main className="max-w-4xl mx-auto ">
                     <div className="text-center">
@@ -82,7 +94,11 @@ const TermsOfServices = () => {
                     </div>
                 </main>
             </div>
+            <Footer/>
+
         </div>
+</div>
+        
     )
 }
 

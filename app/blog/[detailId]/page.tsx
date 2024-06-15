@@ -3,10 +3,13 @@
 import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
 import CommentForm from '@/app/components/comment/CommentForm'
 import CommentList from '@/app/components/comment/CommentList'
+import Footer from '@/app/components/footer/page'
+import Navbar from '@/app/components/navbar/Navbar'
+import Navbar2 from '@/app/components/navbar2/Navbar2'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const BlogDetail = () => {
@@ -49,13 +52,23 @@ const BlogDetail = () => {
 
 
 
-
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/ftf')
+  }
 
 
   return (
 
     <div className="min-h-screen">
-
+ <div className="pt-4">
+        <div className="fixed top-0 w-full z-10">
+          <Navbar/>
+        </div>
+        <div className="mt-32 md:mt-16">
+          <Navbar2/>
+        </div>
+      </div>
       <div className='ml-8 mt-4'>
       <Breadcrumb title={selectedBlog?.title} />
 
@@ -82,15 +95,16 @@ const BlogDetail = () => {
 
       <div className="w-full">
           <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-8">
-            <h2 className="text-xl md:text-2xl font-extrabold mb-4 text-center">Talk to Strangers Right Now!</h2>
+            <h2 className="text-xl md:text-2xl font-extrabold mb-4 text-center">Connect Globally, Talk to Strangers Right Now!</h2>
             <div className="p-2 flex items-center justify-center">
-              <Link href={"/"} className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-full md:w-72 rounded-full">
+              <button onClick={handleClick} className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-full md:w-72 rounded-full">
                 Start Chat
-              </Link>
+              </button>
             </div>
             <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New FriendsMake New FriendsMake New Friends</p>
           </div>
         </div>
+        <Footer/>
     </div>
   )
 }

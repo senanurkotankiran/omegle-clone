@@ -2,38 +2,48 @@
 import Image from 'next/image'
 import React from 'react'
 import Breadcrumb from '../components/breadcrumb/Breadcrumb'
-import Link from 'next/link'
+import Navbar from '../components/navbar/Navbar'
+import Footer from '../components/footer/page'
+import Navbar2 from '../components/navbar2/Navbar2'
+import { useRouter } from 'next/navigation'
 
 const About = () => {
-
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/ftf')
+  }
   return (
 
     <div className="min-h-screen">
+           
+
+        <div className="pt-4">
+        <div className="fixed top-0 w-full z-10">
+          <Navbar />
+        </div>
+        <div className="mt-32 md:mt-16">
+          <Navbar2 />
+        </div>
+      </div>
       <div className='ml-8 mt-4'>
         <Breadcrumb />
       </div>
       <main>
         <div className="flex flex-col lg:flex-row justify-center items-center w-full mb-4 mt-8 p-4">
           <div className="lg:w-1/2 flex justify-center mb-8 lg:mb-0">
-            <Image src='/about1.png' alt='Fun' width={700} height={700} className="rounded-lg" />
+            <Image src='/about1.webp' alt='Fun' width={700} height={700} className="rounded-lg" />
           </div>
           <div className="text-left max-w-2xl lg:pl-8">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Connecting the World</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Connecting Hearts Across the Globe</h1>
             <p className="text-white text-lg md:text-xl text-justify mb-6">
-              With the power of technology, we bring people together from all corners of the globe. By providing the ability to have face-to-face conversations with your loved ones at any moment, we eliminate distances.
-            </p>
+            Bringing the world closer together through technology, we unite people from every corner of the globe. Our platform empowers users to connect face-to-face with loved ones instantly, erasing the boundaries of distance.            </p>
             <div className="p-2">
               
 
-              <a 
-                  href="https://ftf.live/app" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  <button  className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
+             
+                  <button onClick={handleClick}  className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
                     Start Chat
                   </button>
-              </a>
             </div>
           </div>
         </div>
@@ -44,9 +54,9 @@ const About = () => {
               <path d="M7 11V6c0-3 2-5 5-5s5 2 5 5v5m-5 12a7 7 0 100-14 7 7 0 000 14zm0-8v4m0-3a1 1 0 100-2 1 1 0 000 2z"></path>
             </svg>
             <div>
-              <h2 className="text-lg font-bold text-white mb-2">Güvenli</h2>
+              <h2 className="text-lg font-bold text-white mb-2">Security</h2>
               <p className="text-white">
-                Tüm bilgileriniz tarafımızca korunur ve şifrelenir.
+              All your information is protected and encrypted by us.
               </p>
             </div>
           </div>
@@ -58,9 +68,9 @@ const About = () => {
               </g>
             </svg>
             <div>
-              <h2 className="text-lg font-bold text-white mb-2">Gizli</h2>
+              <h2 className="text-lg font-bold text-white mb-2">Privacy</h2>
               <p className="text-white">
-                Sistem içerisinde tamamen gizli kalırsınız ve eşleşme içeriği asla kaydedilmez.
+              You remain completely anonymous within the system and match content is never recorded.
               </p>
             </div>
           </div>
@@ -72,8 +82,8 @@ const About = () => {
               <path d="M15.29 10.29l-2.78 2.78A2.09 2.09 0 0012 13a2 2 0 00-2 2 2.09 2.09 0 00.07.51l-.78.78a1 1 0 000 1.42 1 1 0 001.42 0l.78-.78A2.09 2.09 0 0012 17a2 2 0 002-2 2.09 2.09 0 00-.07-.51l2.78-2.78a1 1 0 00-1.42-1.42zM12 4A10 10 0 002 14a9.91 9.91 0 001.69 5.56 1 1 0 001.66-1.12 8 8 0 1113.3 0 1 1 0 00.27 1.39 1 1 0 00.56.17 1 1 0 00.83-.44A9.91 9.91 0 0022 14 10 10 0 0012 4z"></path>
             </svg>
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">Hızlı</h2>
-              <p className="text-white">Eşleştirme sistemi çok hızlıdır ve en son teknolojiler ile geliştirilmiştir.</p>
+              <h2 className="text-xl font-bold text-white mb-2">Fast</h2>
+              <p className="text-white">The matching system is very fast and developed with the latest technologies.</p>
             </div>
           </div>
           <div className="flex items-center bg-gray-800 bg-opacity-65 p-8 rounded-lg w-full">
@@ -83,9 +93,9 @@ const About = () => {
               </g>
             </svg>
             <div>
-              <h2 className="text-xl font-bold text-white mb-2">Eşleşme</h2>
+              <h2 className="text-xl font-bold text-white mb-2">Match</h2>
               <p className="text-white">
-                5 saniye içerisinde eşleşme garantisi. Saniyeler içinde sohbet etmeye başlayabilirsiniz.
+                Guaranteed match within 5 seconds. You can start chatting in seconds.
               </p>
             </div>
           </div>
@@ -94,23 +104,17 @@ const About = () => {
 
         <div className="flex flex-col lg:flex-row justify-center items-center w-full mb-4 mt-8 p-4">
           <div className="lg:w-1/2 flex justify-center mb-8 lg:mb-0 lg:order-2">
-            <Image src='/about2.png' alt='Fun' width={700} height={700} className="rounded-lg" />
+            <Image src='/home2.webp' alt='Fun' width={400} height={400} className="rounded-lg" />
           </div>
           <div className="text-left max-w-2xl lg:w-1/2 lg:pl-8 lg:order-1">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Connecting the World</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Ensuring Your Safety</h1>
             <p className="text-white text-lg md:text-xl text-justify mb-6">
-              With the power of technology, we bring people together from all corners of the globe. By providing the ability to have face-to-face conversations with your loved ones at any moment, we eliminate distances.
-            </p>
+            Ensuring your safety is paramount to us. We understand the importance of feeling secure during your interactions with new people. Explore our Safety Center for valuable insights into our safety features and tips to enhance your experience.            </p>
             <div className="p-2">
-            <a 
-                  href="https://ftf.live/app" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  <button  className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
+           
+                  <button onClick={handleClick} className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
                     Start Chat
                   </button>
-              </a>
             </div>
           </div>
         </div>
@@ -145,6 +149,7 @@ const About = () => {
 
 
       </div>
+      <Footer/>
 
     </div>
   )

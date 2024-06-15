@@ -7,9 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await connectToDatabase();
 
   if (req.method === 'POST') {
-    const { title, content, author,image } = req.body;
+    const { title, content, author,image ,categoryId} = req.body;
     try {
-      const blog = await Blog.create({ title, content, author,image });
+      const blog = await Blog.create({ title, content, author,image,categoryId });
       res.status(201).json(blog);
     } catch (error) {
       res.status(500).json({ error: 'Kartvizit eklenemedi' });
@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } else if (req.method === 'GET') {
     try {
 
-      const blogs = await Blog.find({})
+      const blogs = await Blog.find({}).populate('categoryId');
       res.status(200).json(blogs);
     } catch (error) {
       res.status(500).json({ error: 'Kartvizitler alınamadı' });

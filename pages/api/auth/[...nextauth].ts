@@ -4,6 +4,7 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '../../../models/User'
 import bcrypt from 'bcryptjs'
+
 import connectToDatabase from '@/lib/mongoose'
 
 if (!process.env.JWT_SECRET_KEY) {
@@ -43,6 +44,7 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
+
       if (user) {
         token.id = user.id
       }
@@ -54,6 +56,10 @@ export default NextAuth({
       }
       return session
     },
-  },
+   
+  }, pages:{
+    signIn: "/"
+},
   secret: process.env.JWT_SECRET_KEY,
 })
+

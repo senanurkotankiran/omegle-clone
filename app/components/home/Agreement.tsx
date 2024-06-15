@@ -1,8 +1,14 @@
+"use client"
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 
 const Agreement = () => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push('/ftf')
+  }
   return (
     <div className=" flex-auto justify-center items-center  m-24">
     <div className="bg-white rounded shadow-custom-inset p-6 pt-8 max-w-xl h-96 overflow-y-auto relative ">
@@ -20,22 +26,18 @@ const Agreement = () => {
 
       <div className="mt-4 border-none bg-blue-200 p-2 flex items-center justify-center shadow-2xl w-full">
         <span className="font-extrabold text-base">Video is monitored. Keep it clean </span>
-        <Image src={"/warning.png"} alt="Warning" width={25} height={25} />
+        <Image src={"/warning.webp"} alt="Warning" width={25} height={25} />
       </div>
       <div className="text-xs mt-4">
         Leave Omegle and visit an adult site instead if that’s what you are looking for, and you are 18 or older.
       </div>
       <div className="sticky bottom-0 p-2 flex items-center justify-center bg-white w-full">
        
-        <a 
-                  href="https://ftf.live/app" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  <button className="flex items-center justify-center border-none bg-custom-gradient-1 text-l text-white h-10 w-72 rounded">
+       
+                  <button onClick={handleClick} className="flex items-center justify-center border-none bg-custom-gradient-1 text-l text-white h-10 w-72 rounded">
                     Start Chat
                   </button>
-              </a>
+            
       </div>
     </div>
 

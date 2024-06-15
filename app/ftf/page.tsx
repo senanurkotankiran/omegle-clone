@@ -1,6 +1,6 @@
 "use client"
 import { useEffect } from "react";
-
+/* 
 export default function FTF() {
   useEffect(() => {
     const iframe = document.createElement('iframe');
@@ -19,3 +19,25 @@ export default function FTF() {
 
   return null; 
 }
+ */
+
+
+
+const frame = () => {
+  useEffect(() => {
+    // Her render işlemi sırasında iframe içeriği yüklenir
+  }, []);
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <iframe
+        src="https://ftf.live/tr/app"
+        title="Video Chat"
+        className="w-full h-full"
+        allow="camera; microphone"
+      />
+    </div>
+  );
+};
+
+export default frame;
