@@ -55,7 +55,7 @@ const PrivacyPolicy = () => {
                             </li>
                             <li>
                                 <span className='font-bold'>To send you marketing messages:</span>
-                                We may use your information to send you marketing messages about our products or services. You can opt out of receiving marketing messages at any time by clicking the "unsubscribe" link at the bottom of any marketing email.
+                                We may use your information to send you marketing messages about our products or services. You can opt out of receiving marketing messages at any time by clicking the unsubscribe link at the bottom of any marketing email.
                             </li>
                         </ul>
                     </div>

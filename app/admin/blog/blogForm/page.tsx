@@ -1,18 +1,16 @@
 "use client"
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
 import AdminNavbar2 from '../../components/navbar2/AdminNavbar2';
 
 const BlogForm = () => {
-
   interface ICategoryItem {
     _id: string;
     name: string;
-
   }
 
-  const [categories, setCategories] = useState<ICategoryItem[]>([])
+  const [categories, setCategories] = useState<ICategoryItem[]>([]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -21,7 +19,6 @@ const BlogForm = () => {
     image: '',
     categoryId: '',
   });
-
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -37,7 +34,24 @@ const BlogForm = () => {
 
     fetchCategories();
   }, []);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -46,7 +60,7 @@ const BlogForm = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData(prevState => ({
@@ -59,7 +73,6 @@ const BlogForm = () => {
     }
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await fetch('/api/blogs', {
@@ -71,67 +84,62 @@ const BlogForm = () => {
     });
     setFormData({ title: '', content: '', author: '', image: '', categoryId: '' });
   };
-  return (
 
-    <div >
-      <div className="pt-4 mb-4">
-        <AdminNavbar />
-        <div className="mt-14 md:mt-16">
-          <AdminNavbar2 />
-        </div>
+  return (
+    <div className="pt-4 mb-4">
+      <AdminNavbar />
+      <div className="mt-14 md:mt-16">
+        <AdminNavbar2 />
       </div>
       <div className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
-
         <h2 className="text-2xl font-bold mb-4">Blog Ekle</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium ">
+            <label htmlFor="title" className="block text-sm font-medium">
               Başlık
             </label>
             <input
               type="text"
               name="title"
               value={formData.title}
-              onChange={handleChange}
+              onChange={handleInputChange}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
           <div>
-            <label htmlFor="author" className="block text-sm font-medium ">
+            <label htmlFor="author" className="block text-sm font-medium">
               Yazar
             </label>
             <input
               type="text"
               name="author"
               value={formData.author}
-              onChange={handleChange}
+              onChange={handleInputChange}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               required
             />
           </div>
-
           <div>
-            <label htmlFor="category" className="block text-sm font-medium ">
-            Category
-          </label>
-          <div>
+            <label htmlFor="categoryId" className="block text-sm font-medium">
+              Category
+            </label>
             <select
               name="categoryId"
               value={formData.categoryId}
-              onChange={handleChange}
-              className="border p-2 w-full rounded-t-md text-gray-500  sm:text-sm"
+              onChange={handleSelectChange}
+              className="border p-2 w-full rounded-t-md text-gray-500 sm:text-sm"
             >
-              <option value="" className="text-gray-800 ">Kategori Seç</option>
-              {categories.map((category) => (
-                <option className="text-gray-800" key={category._id} value={category._id}>
+              <option value="" className="text-gray-800">
+                Kategori Seç
+              </option>
+              {categories.map(category => (
+                <option key={category._id} value={category._id} className="text-gray-800">
                   {category.name}
                 </option>
               ))}
             </select>
           </div>
-          </div>
-          
           <div>
             <label htmlFor="content" className="block text-sm font-medium">
               İçerik
@@ -139,7 +147,7 @@ const BlogForm = () => {
             <textarea
               name="content"
               value={formData.content}
-              onChange={handleChange}
+              onChange={handleTextareaChange}
               className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               rows={6}
               required
@@ -172,8 +180,7 @@ const BlogForm = () => {
         </form>
       </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default BlogForm
+export default BlogForm;

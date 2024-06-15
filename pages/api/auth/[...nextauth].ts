@@ -1,11 +1,19 @@
-// pages/api/auth/[...nextauth].ts
-
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '../../../models/User'
 import bcrypt from 'bcryptjs'
 
 import connectToDatabase from '@/lib/mongoose'
+
+// Extend Token type to include id if it exists
+interface ExtendedToken {
+  id?: string;
+}
+
+// Extend Session user type to include id if it exists
+interface ExtendedSessionUser {
+  id?: string;
+}
 
 if (!process.env.JWT_SECRET_KEY) {
   throw new Error('Please define the JWT_SECRET environment variable inside .env.local')
@@ -44,22 +52,22 @@ export default NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-
+      // Extend token with id property if user exists
       if (user) {
-        token.id = user.id
+        (token as ExtendedToken).id = user.id;
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string
+      // Extend session user with id property if token contains it
+      if (session.user && (token as ExtendedToken).id) {
+        (session.user as ExtendedSessionUser).id = (token as ExtendedToken).id;
       }
-      return session
+      return session;
     },
-   
-  }, pages:{
+  },
+  pages: {
     signIn: "/"
-},
+  },
   secret: process.env.JWT_SECRET_KEY,
 })
-

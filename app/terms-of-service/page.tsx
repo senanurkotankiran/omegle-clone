@@ -20,7 +20,7 @@ const TermsOfServices = () => {
                 <main className="max-w-4xl mx-auto ">
                     <div className="text-center">
                         <h1 className="text-5xl font-bold mb-8">TERMS OF SERVICE</h1>
-                        <p className="text-xl text-black mb-12 text-left ">These Terms of Service (the "Terms") govern your use of the [www-omegle] website (the "https://www-omegle.com"). By using the Website, you agree to be bound by these Terms.</p>
+                        <p className="text-xl text-black mb-12 text-left ">These Terms of Service (the Terms) govern your use of the [www-omegle] website (the https://www-omegle.com). By using the Website, you agree to be bound by these Terms.</p>
 
                         <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center w-full">
                             <div className='border p-4 text-left mb-4'>
@@ -60,7 +60,7 @@ const TermsOfServices = () => {
                             </div>
                             <div className='border p-4 text-left mb-4 w-full'>
                                 <h2 className="text-xl font-bold text-gray-800 mb-4">DISCLAIMER OF WARRANTIES</h2>
-                                <p className="text-gray-600">THE WEBSITE IS PROVIDED "AS IS" AND [www-omegle.com] MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. [www-omegle.com] DOES NOT WARRANT THAT THE WEBSITE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
+                                <p className="text-gray-600">THE WEBSITE IS PROVIDED AS IS AND [www-omegle.com] MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. [www-omegle.com] DOES NOT WARRANT THAT THE WEBSITE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
 
                             </div>
                             <div className='border p-4 text-left mb-4 w-full'>

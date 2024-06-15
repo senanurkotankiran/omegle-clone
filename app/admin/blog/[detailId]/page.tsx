@@ -101,7 +101,7 @@ const BlogDetail = () => {
 
   
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];  // Use optional chaining to safely access files[0]
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData(prevState => ({

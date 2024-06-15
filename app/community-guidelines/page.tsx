@@ -39,7 +39,7 @@ const CommunityGuidelines = () => {
                             <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center w-full">
                                 <div className='border p-4 text-left mb-4'>
                                     <h2 className="text-xl font-bold text-gray-800 mb-4 uppercase">Content</h2>
-                                    <p className="text-gray-600">Your website's content should be informative and engaging. It should be well-written and easy to understand. The content should also be relevant to your target audience.</p>
+                                    <p className="text-gray-600">Your websites content should be informative and engaging. It should be well-written and easy to understand. The content should also be relevant to your target audience.</p>
                                     <p className="text-gray-600">These Community Guidelines are in addition to the www-omegle.com Terms of Service, which also apply to your access to and use of the Services.</p>
                                     <p className="text-gray-600">Here are some specific guidelines for creating informative and engaging content:</p>
                                     <ul className='list-disc text-gray-600 m-4'>
@@ -64,7 +64,7 @@ const CommunityGuidelines = () => {
 
                                 <div className='border p-4 text-left mb-4'>
                                     <h2 className="text-xl font-bold text-gray-800 mb-4 uppercase">Design</h2>
-                                    <p className="text-gray-600">Your website's design should be visually appealing and easy to navigate. It should use clear and concise language. The design should also be consistent throughout the website.</p>
+                                    <p className="text-gray-600">Your website design should be visually appealing and easy to navigate. It should use clear and concise language. The design should also be consistent throughout the website.</p>
                                     <p className="text-gray-600">Here are some specific guidelines for creating a visually appealing and easy-to-navigate design:</p>
                                     <ul className='list-disc text-gray-600 m-4'>
                                         <li>
@@ -90,8 +90,8 @@ const CommunityGuidelines = () => {
 
                                 <div className='border p-4 text-left mb-4'>
                                     <h2 className="text-xl font-bold text-gray-800 mb-4 uppercase">SEO</h2>
-                                    <p className="text-gray-600">SEO stands for search engine optimization. It is the process of making your website easier to find in search engine results pages (SERPs). There are a number of things you can do to improve your website's SEO, such as using relevant keywords and phrases, creating high-quality content, and building backlinks.</p>
-                                    <p className="text-gray-600">Here are some specific guidelines for improving your website's SEO:</p>
+                                    <p className="text-gray-600">SEO stands for search engine optimization. It is the process of making your website easier to find in search engine results pages (SERPs). There are a number of things you can do to improve your website SEO, such as using relevant keywords and phrases, creating high-quality content, and building backlinks.</p>
+                                    <p className="text-gray-600">Here are some specific guidelines for improving your website SEO:</p>
                                     <ul className='list-disc text-gray-600 m-4'>
                                         <li>
                                             Use relevant keywords and phrases throughout your content.
@@ -159,7 +159,7 @@ const CommunityGuidelines = () => {
 
                                         </li>
                                         <li>
-                                            Track your website's analytics to see how people are using it. This will help you identify areas where you can improve your website.
+                                            Track your website analytics to see how people are using it. This will help you identify areas where you can improve your website.
 
                                         </li>
 
