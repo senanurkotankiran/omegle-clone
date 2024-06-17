@@ -9,7 +9,7 @@ const AdminNavbar = () => {
     <div className="flex items-center">
         <Link href={"/admin/panel"}> <div className=" m-2 py-1 h-14 cursor-pointer flex items-center space-x-2">
 
-          <Image src="/omegleLogo.png" alt="Logo" width={200} height={200} />
+          <Image src="/omegleLogo.webp" alt="Logo" width={200} height={200} />
 
 
 
