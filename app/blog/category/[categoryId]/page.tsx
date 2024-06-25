@@ -93,7 +93,7 @@ const Blog = () => {
                 </div>
             </div>
             <div>
-                <Image src="/blog6.png" alt="foto" width={1800} height={900} className="mb-4 w-full h-200 opacity-65" />
+                <Image src="/blog6.webp" alt="foto" width={1800} height={900} className="mb-4 w-full h-200 opacity-65" />
             </div>
 
             <div className="ml-8 mt-4">
