@@ -11,7 +11,7 @@ const Footer = () => {
           <Link href={"/privacy-policy"} className="hover:text-gray-400 text-xs md:text-sm">Privacy Policy</Link>
           <Link href={"/terms-of-service"} className="hover:text-gray-400 text-xs md:text-sm">Terms Of Service</Link>
           <Link href={"/community-guidelines"} className="hover:text-gray-400 text-xs md:text-sm">Community Guidelines</Link>
-          <a href="#" className="hover:text-gray-400 text-xs md:text-sm">Contact Us</a>
+          <Link href={"/"} className="hover:text-gray-400 text-xs md:text-sm">Contact Us</Link>
         </div>
       </div>
     </footer>

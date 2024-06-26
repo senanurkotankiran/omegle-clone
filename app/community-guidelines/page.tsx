@@ -4,8 +4,17 @@ import Navbar2 from '../components/navbar2/Navbar2'
 import Footer from '../components/footer/page'
 
 const CommunityGuidelines = () => {
+    
     return (
-        <div>
+        <>
+        <head>
+        <title>Community Guidelines - Omegle</title>
+        <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
+      
+      </head>
+         <div>
+
+
             <div className="pt-4">
                 <div className="fixed top-0 w-full z-10">
                     <Navbar />
@@ -185,6 +194,8 @@ const CommunityGuidelines = () => {
 
             </div>
         </div>
+        </>
+       
 
     )
 }

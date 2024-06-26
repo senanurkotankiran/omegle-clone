@@ -6,6 +6,11 @@ import Footer from '../components/footer/page'
 const TermsOfServices = () => {
     return (
 <div>
+<head>
+        <title>Terms Of Service - Omegle</title>
+        <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
+      
+      </head>
 <div className="pt-4">
         <div className="fixed top-0 w-full z-10">
           <Navbar/>

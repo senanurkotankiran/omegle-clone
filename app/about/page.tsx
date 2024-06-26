@@ -10,6 +10,60 @@ import Link from 'next/link'
 
 
 const About = () => {
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Omegle",
+    "url": "https://omegle-mu.vercel.app/about",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://omegle-mu.vercel.app/about/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const jsonLdOrganization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Omegle",
+    "url": "https://omegle-mu.vercel.app/about",
+    "logo": "https://omegle-mu.vercel.app/static/logo.png",
+    "sameAs": [
+      "https://www.facebook.com/Omegle",
+      "https://twitter.com/Omegle",
+      "https://www.instagram.com/Omegle"
+    ]
+  };
+
+  const jsonLdWebPage = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Omegle: Talk to Strangers",
+    "description": "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
+    "url": "https://omegle-mu.vercel.app/about"
+  };
+
+  const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://omegle-mu.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://omegle-mu.vercel.app/about"
+      }
+    ]
+  };
+
+
+
 
   return (
     
@@ -20,6 +74,29 @@ const About = () => {
         <meta name="keywords" content="Omegle, sohbet, yeni insanlarla tanışma, güvenli sohbet, çevrimiçi arkadaşlar"/>
         <meta name="robots" content="index, follow" />
 </head>
+
+
+
+
+
+<script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+
+
 
 <div className="min-h-screen">
            
