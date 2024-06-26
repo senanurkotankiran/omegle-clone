@@ -40,13 +40,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://omegle.cm" />
+        <meta property="og:url" content="https://omegle-mu.vercel.app" />
         <meta property="og:title" content="Omegle.com - Omegle: Talk to strangers!" />
         <meta property="og:description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta property="og:image" content="https://omegle.cm/static/logo.png" />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://omegle.cm" />
+        <meta property="twitter:url" content="https://omegle-mu.vercel.app" />
         <meta property="twitter:title" content="Omegle.com - Omegle: Talk to strangers!" />
         <meta property="twitter:description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta property="twitter:image" content="https://omegle.cm/static/logo.png" />

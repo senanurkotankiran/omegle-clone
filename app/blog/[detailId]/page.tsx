@@ -1,13 +1,10 @@
 "use client"
 
 import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
-import CommentForm from '@/app/components/comment/CommentForm'
-import CommentList from '@/app/components/comment/CommentList'
 import Footer from '@/app/components/footer/page'
 import Navbar from '@/app/components/navbar/Navbar'
 import Navbar2 from '@/app/components/navbar2/Navbar2'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -57,7 +54,7 @@ const BlogDetail = () => {
     router.push('/ftf')
   }
 
-
+ 
   return (
 
     <div className="min-h-screen">

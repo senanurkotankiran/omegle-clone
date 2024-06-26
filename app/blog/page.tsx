@@ -9,51 +9,53 @@ import Navbar2 from '../components/navbar2/Navbar2'
 import Link from 'next/link'
 
 const Blog = () => {
-
   interface IBlogItem {
     _id: string;
     title: string;
     content: string;
-    author: string,
+    author: string;
     image: string;
     createdAt: string;
+    categoryId: { _id: string; name: string };
   }
 
   interface ICategoryItem {
     _id: string;
     name: string;
-
   }
 
-  const [categories, setCategories] = useState<ICategoryItem[]>([])
+  const [categories, setCategories] = useState<ICategoryItem[]>([]);
   const [blogs, setBlogs] = useState<IBlogItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const res = await fetch('/api/blogs');
+      const res = await fetch(`/api/blogs${selectedCategory ? `?category=${selectedCategory}` : ''}`);
       const data = await res.json();
       const sortedBlogs = data.sort((a: IBlogItem, b: IBlogItem) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
       setBlogs(sortedBlogs);
     };
 
     fetchBlogs();
-  }, []);
+  }, [selectedCategory]);
 
   useEffect(() => {
-    const fetchCards = async () => {
+    const fetchCategories = async () => {
       const res = await fetch('/api/categories');
       const data = await res.json();
       setCategories(data);
     };
 
-    fetchCards();
+    fetchCategories();
   }, []);
-
 
   const truncateContent = (content: string, length: number) => {
     return content.length > length ? content.slice(0, length) + '...' : content;
+  };
+
+  const handleCategoryClick = (category: string | null) => {
+    setSelectedCategory(category);
   };
 
   return (
@@ -74,26 +76,27 @@ const Blog = () => {
         <Breadcrumb />
       </div>
 
-      <main className="max-w-4xl mx-auto mb-4 ">
+      <main className="max-w-4xl mx-auto mb-4">
         <div className="text-left">
-          <h1 className="text-4xl md:text-5xl font-bold mb-12 mt-8 text-white text-center">Omegle Online Video Chat </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-12 mt-8 text-white text-center">Omegle Online Video Chat</h1>
 
           <div className='uppercase flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8 px-3 md:px-10'>
             {categories.map((item) => (
               <div
                 key={item._id}
-                className='text-center text-lg text-white font-bold  hover:text-gray-600'
-                onClick={() => {
-                  router.push(`/blog/category/${item._id}`)
-                }}>
+                onClick={() => handleCategoryClick(item.name)}
+                className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === item.name ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
+              >
                 {item.name}
               </div>
             ))}
-            <div className='text-center text-lg text-white font-bold  hover:text-gray-600' onClick={() => {
-              router.push(`/blog/`);
-            }}> ALL BLOGS</div>          </div>
-
-
+            <div
+              onClick={() => handleCategoryClick(null)}
+              className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === null ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
+            >
+              ALL BLOGS
+            </div>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {blogs.map((item) => {
@@ -117,13 +120,10 @@ const Blog = () => {
                 </div>
               )
             })}
-
-
           </div>
         </div>
       </main>
       <Footer />
-
     </div>
   )
 }
