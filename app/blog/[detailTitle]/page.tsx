@@ -1,3 +1,4 @@
+// BlogDetail.tsx
 "use client"
 
 import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
@@ -19,7 +20,7 @@ const BlogDetail = () => {
     _id: string;
     title: string;
     content: string;
-    author: string,
+    author: string;
     image: string;
     createdAt: Date;
     categoryId: { _id: string; name: string };
@@ -51,8 +52,12 @@ const BlogDetail = () => {
   }
 
   const formatTitleForURL = (title: string) => {
-    return encodeURIComponent(title.toLowerCase().replace(/ /g, '-'));
-  }
+    return encodeURIComponent(
+      title
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/\./g, '-')
+ ) }
 
   useEffect(() => {
     if (selectedBlog) {
@@ -72,7 +77,7 @@ const BlogDetail = () => {
         </div>
       </div>
       <div className='ml-8 mt-4'>
-        <Breadcrumb title={selectedBlog?.title} />
+        <Breadcrumb title={selectedBlog?.title} category={selectedBlog?.categoryId.name} />
       </div>
       <main className="max-w-4xl mx-auto mb-4 mt-4">
         <div className="text-left">
