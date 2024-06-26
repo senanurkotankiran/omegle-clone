@@ -29,7 +29,7 @@ export default function RootLayout({
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://omegle-tau.vercel.app" />
+        <link rel="canonical" href="https://omegle-mu.vercel.app" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
