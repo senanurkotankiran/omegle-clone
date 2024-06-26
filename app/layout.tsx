@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/Navbar";
 import Navbar2 from "./components/navbar2/Navbar2";
 import Footer from "./components/footer/page";
 import AuthProvider from "./Providers";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
+      <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
@@ -50,7 +51,7 @@ export default function RootLayout({
         <meta property="twitter:title" content="Omegle.com - Omegle: Talk to strangers!" />
         <meta property="twitter:description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta property="twitter:image" content="https://omegle.cm/static/logo.png" />
-      </head>
+      </Head>
       <body className={inter.className}>
         <AuthProvider>
           {children}
