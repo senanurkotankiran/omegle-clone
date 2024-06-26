@@ -16,6 +16,7 @@
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",
     "cookie": "^0.6.0",
+    "date-fns": "^3.6.0",
     "encrypt": "^0.0.1",
     "export": "^0.1.337",
     "formidable": "^3.5.1",

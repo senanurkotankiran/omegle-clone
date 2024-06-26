@@ -40,6 +40,11 @@ const AdminNavbar2 = () => {
       FaQ
     </div>
   </Link>
+  <Link href={"/admin/testimonial/testimonialList"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
+    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
+      Reference
+    </div>
+  </Link>
 </div>
 
 <Link href={"/admin/user/login"} className='ml-auto '>

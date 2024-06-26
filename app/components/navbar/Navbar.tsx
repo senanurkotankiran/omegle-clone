@@ -14,13 +14,7 @@ const Navbar = () => {
       <div className="flex items-center">
         <Link href={"/"}><Logo/></Link>
       </div>
-      <div className="flex items-center mt-4 md:mt-0">
-      
-                  <button onClick={handleClick}  className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-orange-500 font-bold text-white h-10 w-16 rounded-lg">
-                    Login
-                  </button>
-              
-      </div>
+
      
     </div>
   )

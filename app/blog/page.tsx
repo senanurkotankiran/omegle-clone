@@ -120,6 +120,7 @@ import Navbar2 from '../components/navbar2/Navbar2'
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
         <meta name="robots" content="index, follow" />
+
       </head>
 
 
@@ -154,7 +155,7 @@ import Navbar2 from '../components/navbar2/Navbar2'
         <div className="fixed top-0 w-full z-10">
           <Navbar />
         </div>
-        <div className="mt-32 md:mt-16">
+        <div className="mt-14 md:mt-16">
           <Navbar2 />
         </div>
       </div>

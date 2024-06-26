@@ -1,23 +1,55 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Breadcrumb from "./components/breadcrumb/Breadcrumb";
 import TestimonialsCarousel from "./components/home/TestimonialCarousel";
 import Last4Blog from "./components/home/Last4Blog";
 import Faqs from "./components/home/Faqs";
 import Agreement from "./components/home/Agreement";
 import Image from "next/image";
-import CookieConsent from "./components/home/CookieConsent";
 import Navbar from "./components/navbar/Navbar";
 import Navbar2 from "./components/navbar2/Navbar2";
 import Footer from "./components/footer/page";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 
-export default function Home() {
+interface IFaqItem {
+  question:string,
+  answer:string
+}
+
+
+const Home =()=> {
   const router = useRouter();
   const handleClick = () => {
     router.push('/ftf');
   };
+  const [faqs, setFaqs] = useState<IFaqItem[]>([]);
+  const [faqJsonLd, setFaqJsonLd] = useState<string>("");
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      const res = await fetch("/api/faqs");
+      const data = await res.json();
+      setFaqs(data);
+
+      const generatedFaqJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": data.map((faq: IFaqItem) => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer,
+          },
+        })),
+      };
+
+      setFaqJsonLd(JSON.stringify(generatedFaqJsonLd));
+    };
+
+    fetchFaqs();
+  }, []);
 
   const jsonLdWebSite = {
     "@context": "https://schema.org",
@@ -65,12 +97,12 @@ export default function Home() {
     ]
   };
 
+
+  console.log(faqJsonLd,"mainEntity")
   return (
     <>
 
-      <div>
-       
-        <script
+    <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
@@ -86,11 +118,20 @@ export default function Home() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: faqJsonLd }}
+          />
+
+      <div>
+
+        
+       
         <div className="pt-4">
           <div className="fixed top-0 w-full z-10">
             <Navbar />
           </div>
-          <div className="mt-32 md:mt-16">
+          <div className="mt-14 md:mt-16">
             <Navbar2 />
           </div>
         </div>
@@ -124,7 +165,7 @@ export default function Home() {
             <Faqs />
           </div>
           <div className="max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
-            <p className="mt-16 flex justify-center text-3xl font-bold text-white">Referanslar</p>
+            <p className="mt-16 flex justify-center text-3xl font-bold text-white">References</p>
             <TestimonialsCarousel />
           </div>
           <div className="w-full">
@@ -150,3 +191,4 @@ export default function Home() {
     </>
   );
 }
+export default Home

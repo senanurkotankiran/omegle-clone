@@ -1,12 +1,12 @@
+"use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../components/breadcrumb/Breadcrumb'
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
 import Link from 'next/link'
-
-
+import ContactUs from '../components/about/ContactUs'
 
 
 const About = () => {
@@ -62,8 +62,27 @@ const About = () => {
     ]
   };
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
+  const [showToast, setShowToast] = useState(false);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Form gönderme işlemini burada gerçekleştirin
+    setShowToast(true);
+    setName('');
+    setEmail('');
+    setMessage('');
+  };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 3000); 
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     
@@ -73,13 +92,14 @@ const About = () => {
         <meta name="description" content="Omegle yeni arkadaşlar edinmek için harika bir yerdir. Omegle kullanıldığında, başka bir kullanıcıyı rastgele seçer ve birbirinizle bire bir sohbet etmenize olanak tanır." />
         <meta name="keywords" content="Omegle, sohbet, yeni insanlarla tanışma, güvenli sohbet, çevrimiçi arkadaşlar"/>
         <meta name="robots" content="index, follow" />
+
 </head>
 
 
 
 
 
-<script
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
@@ -105,7 +125,7 @@ const About = () => {
         <div className="fixed top-0 w-full z-10">
           <Navbar />
         </div>
-        <div className="mt-32 md:mt-16">
+        <div className="mt-14 md:mt-16">
           <Navbar2 />
         </div>
       </div>
@@ -212,32 +232,10 @@ const About = () => {
 
       </main>
       
-      <div className="flex flex-col items-center justify-center mt-12 bg-gray-800 opacity-75 p-8">
-        <div className="flex flex-col md:flex-row items-center justify-center">
-          <h2 className="text-3xl font-bold text-white mb-6 md:mr-12">Contact Us</h2>
-          <div className="flex flex-col items-center justify-center">
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-96 h-12 px-4 mb-4 rounded-full outline-none"
-            />
-            <input
-              type="email"
-              placeholder="Your E-mail Address"
-              className="w-96 h-12 px-4 mb-4 rounded-full outline-none"
-            />
-            <textarea
-              placeholder="Your Message"
-              className="w-96 h-32 px-4 mb-4 rounded-lg outline-none"
-            ></textarea>
-            <button className="w-72 h-12 bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-lg text-white font-semibold rounded-full transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300">
-              Send
-            </button>
-          </div>
-        </div>
+    <div className='mt-12'>
+            <ContactUs/>
 
-
-      </div>
+    </div>
       <Footer/>
 
     </div>

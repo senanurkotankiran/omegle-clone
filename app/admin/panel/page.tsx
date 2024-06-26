@@ -63,6 +63,15 @@ const Panel = () => {
               <p className="text-gray-600 text-center">FaQ eklemek için tıklayın...</p>
             </div>
 
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <Link href={"/admin/testimonial/testimonialForm"}>
+                <div className='font-extrabold border border-dashed border-slate-400 p-10 m-2 text-center text-6xl rounded-lg border-4 mb-4 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300'>
+                  +
+                </div>
+              </Link>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">Referans Ekle</h2>
+              <p className="text-gray-600 text-center">Referans eklemek için tıklayın...</p>
+            </div>
 
            
 
