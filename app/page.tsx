@@ -20,7 +20,13 @@ export default function Home() {
   }
   return (
     <div>
+      
+    
       <div className="pt-4">
+
+    
+
+
         <div className="fixed top-0 w-full z-10">
           <Navbar/>
         </div>

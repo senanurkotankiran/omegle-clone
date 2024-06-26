@@ -7,7 +7,8 @@ import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
 
-const Blog = () => {
+
+ const Blog = () => {
   interface IBlogItem {
     _id: string;
     title: string;
@@ -59,7 +60,16 @@ const Blog = () => {
   };
 
   return (
+    <>
+    <head>
+        <title>Blog - Omegle : Talk the strangers!</title>
+        <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
+        <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
+        <meta name="robots" content="index, follow" />
+      </head>
+    
     <div className="min-h-screen">
+      
       <div className="pt-4">
         <div className="fixed top-0 w-full z-10">
           <Navbar />
@@ -125,7 +135,9 @@ const Blog = () => {
       </main>
       <Footer />
     </div>
+    </>
+    
   )
 }
 
-export default Blog
+export default Blog;

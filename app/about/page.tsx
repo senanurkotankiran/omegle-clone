@@ -1,22 +1,29 @@
-"use client"
 import Image from 'next/image'
 import React from 'react'
 import Breadcrumb from '../components/breadcrumb/Breadcrumb'
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
+
+
 
 const About = () => {
-  const router = useRouter();
-  const handleClick = () => {
-    router.push('/ftf')
-  }
+
   return (
+    
+<>
+<head>
+        <title>About - Omegle: Yabancılarla Konuş!</title>
+        <meta name="description" content="Omegle yeni arkadaşlar edinmek için harika bir yerdir. Omegle kullanıldığında, başka bir kullanıcıyı rastgele seçer ve birbirinizle bire bir sohbet etmenize olanak tanır." />
+        <meta name="keywords" content="Omegle, sohbet, yeni insanlarla tanışma, güvenli sohbet, çevrimiçi arkadaşlar"/>
+        <meta name="robots" content="index, follow" />
+</head>
 
-    <div className="min-h-screen">
+<div className="min-h-screen">
            
-
+         
         <div className="pt-4">
         <div className="fixed top-0 w-full z-10">
           <Navbar />
@@ -40,10 +47,12 @@ const About = () => {
             <div className="p-2">
               
 
-             
-                  <button onClick={handleClick}  className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
+             <Link href={"/ftf"}>
+             <button   className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
                     Start Chat
                   </button>
+             </Link>
+                  
             </div>
           </div>
         </div>
@@ -112,9 +121,12 @@ const About = () => {
             Ensuring your safety is paramount to us. We understand the importance of feeling secure during your interactions with new people. Explore our Safety Center for valuable insights into our safety features and tips to enhance your experience.            </p>
             <div className="p-2">
            
-                  <button onClick={handleClick} className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
+            <Link href={"/ftf"}>
+
+                  <button   className="transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 w-72 rounded-full">
                     Start Chat
                   </button>
+                  </Link>
             </div>
           </div>
         </div>
@@ -152,6 +164,8 @@ const About = () => {
       <Footer/>
 
     </div>
+</>
+    
   )
 }
 
