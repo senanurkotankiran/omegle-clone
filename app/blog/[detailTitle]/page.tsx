@@ -13,8 +13,8 @@ const BlogDetail = () => {
 
 
   const params = useParams();
-  const detailId = params?.detailId;
-
+  const detailTitle = Array.isArray(params?.detailTitle) ? params.detailTitle[0] : params?.detailTitle || '';
+  const decodedTitle = decodeURIComponent(detailTitle);
   interface IBlogItem {
     _id: string;
     title: string;
@@ -41,10 +41,10 @@ const BlogDetail = () => {
   useEffect(() => {
     if (blogs.length > 0) {
 
-      const blog = blogs.find((blog) => blog._id === detailId) || null;
+      const blog = blogs.find((blog) => blog.title === decodedTitle) || null;
       setSelectedBlog(blog);
     }
-  }, [detailId, blogs]);
+  }, [decodedTitle, blogs]);
 
 
 

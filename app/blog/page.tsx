@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
-import Link from 'next/link'
 
 const Blog = () => {
   interface IBlogItem {
@@ -45,6 +44,7 @@ const Blog = () => {
       const res = await fetch('/api/categories');
       const data = await res.json();
       setCategories(data);
+
     };
 
     fetchCategories();
@@ -103,7 +103,7 @@ const Blog = () => {
               return (
                 <div
                   key={item._id}
-                  onClick={() => router.push(`/blog/${item._id}`)}
+                  onClick={() => router.push(`/blog/${item.title}`)}
                   className="bg-white rounded-lg shadow-lg p-6 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300 cursor-pointer"
                 >
                   <Image
