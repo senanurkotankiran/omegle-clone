@@ -1,4 +1,3 @@
-
 import connectToDatabase from '@/lib/mongoose';
 import Blog from '@/models/Blog';
 import { NextApiRequest, NextApiResponse } from 'next';
