@@ -91,12 +91,10 @@ const BlogDetail = () => {
     }
   }, [selectedBlog, router]);
 
-  // SSS öğelerini API'den çek ve duruma ata
   useEffect(() => {
     const fetchFaqs = async () => {
       const res = await fetch('/api/faqs');
       const data = await res.json();
-      // blogId alanı eşleşen SSS öğelerini filtrele
       const filteredFaqs = selectedBlog ? data.filter((faq: IFaqItem) => faq.blogId?.title === selectedBlog.title) : [];
       setFaqs(filteredFaqs);
     };
@@ -120,6 +118,8 @@ const BlogDetail = () => {
         <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
         <meta name="robots" content="index, follow" />
       </head>
+
+      
         
       <div className="min-h-screen">
         <div className="pt-4">
@@ -141,7 +141,7 @@ const BlogDetail = () => {
               )}
               <h2 className="text-xl font-bold text-gray-800 mb-4">{selectedBlog?.title}</h2>
               <span className='text-xs pb-8'>{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
-              <p className="text-gray-600 text-justify ">{selectedBlog?.content}</p>
+              <div className="text-gray-600 text-justify " dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
               <span className=' w-full items-right text-xs p-8 pb-4 text-gray-700 text-right'>
                 {selectedBlog?.createdAt && format(new Date(selectedBlog.createdAt), 'MMMM dd, yyyy')}
               </span>

@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation'
 import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
+import { htmlToText } from 'html-to-text';
 
-
- const Blog = () => {
+const Blog = () => {
 
   const jsonLdWebSite = {
     "@context": "https://schema.org",
@@ -62,7 +62,6 @@ import Navbar2 from '../components/navbar2/Navbar2'
     ]
   };
 
-
   interface IBlogItem {
     _id: string;
     title: string;
@@ -99,14 +98,14 @@ import Navbar2 from '../components/navbar2/Navbar2'
       const res = await fetch('/api/categories');
       const data = await res.json();
       setCategories(data);
-
     };
 
     fetchCategories();
   }, []);
 
   const truncateContent = (content: string, length: number) => {
-    return content.length > length ? content.slice(0, length) + '...' : content;
+    const textContent = htmlToText(content, { wordwrap: false });
+    return textContent.length > length ? textContent.slice(0, length) + '...' : textContent;
   };
 
   const handleCategoryClick = (category: string | null) => {
@@ -115,109 +114,97 @@ import Navbar2 from '../components/navbar2/Navbar2'
 
   return (
     <>
-    <head>
+      <head>
         <title>Blog - Omegle : Talk the strangers!</title>
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
         <meta name="robots" content="index, follow" />
-
       </head>
 
-
-
       <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-        />
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+      />
 
-
-
-
-
-
-
-
-    <div className="min-h-screen">
-      
-      <div className="pt-4">
-        <div className="fixed top-0 w-full z-10">
-          <Navbar />
-        </div>
-        <div className="mt-14 md:mt-16">
-          <Navbar2 />
-        </div>
-      </div>
-      <div>
-        <Image src='/blog6.webp' alt='foto' width={1800} height={900} className="mb-4 w-full h-200 opacity-65" />
-      </div>
-
-      <div className='ml-8 mt-4'>
-        <Breadcrumb />
-      </div>
-
-      <main className="max-w-4xl mx-auto mb-4">
-        <div className="text-left">
-          <h1 className="text-4xl md:text-5xl font-bold mb-12 mt-8 text-white text-center">Omegle Online Video Chat</h1>
-
-          <div className='uppercase flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8 px-3 md:px-10'>
-            {categories.map((item) => (
-              <div
-                key={item._id}
-                onClick={() => handleCategoryClick(item.name)}
-                className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === item.name ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
-              >
-                {item.name}
-              </div>
-            ))}
-            <div
-              onClick={() => handleCategoryClick(null)}
-              className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === null ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
-            >
-              ALL BLOGS
-            </div>
+      <div className="min-h-screen">
+        <div className="pt-4">
+          <div className="fixed top-0 w-full z-10">
+            <Navbar />
           </div>
+          <div className="mt-14 md:mt-16">
+            <Navbar2 />
+          </div>
+        </div>
+        <div>
+          <Image src='/blog6.webp' alt='foto' width={1800} height={900} className="mb-4 w-full h-200 opacity-65" />
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {blogs.map((item) => {
-              return (
+        <div className='ml-8 mt-4'>
+          <Breadcrumb />
+        </div>
+
+        <main className="max-w-4xl mx-auto mb-4">
+          <div className="text-left">
+            <h1 className="text-4xl md:text-5xl font-bold mb-12 mt-8 text-white text-center">Omegle Online Video Chat</h1>
+
+            <div className='uppercase flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8 px-3 md:px-10'>
+              {categories.map((item) => (
                 <div
                   key={item._id}
-                  onClick={() => router.push(`/blog/${item.title}`)}
-                  className="bg-white rounded-lg shadow-lg p-6 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300 cursor-pointer"
+                  onClick={() => handleCategoryClick(item.name)}
+                  className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === item.name ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
                 >
-                  <Image
-                    src={item.image}
-                    alt='foto'
-                    width={250}
-                    height={250}
-                    className="mb-4 rounded border mx-auto"
-                  />
-                  <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">{item.title}</h2>
-                  <p className="text-gray-600 text-justify">
-                    {truncateContent(item.content, 50)}
-                  </p>
+                  {item.name}
                 </div>
-              )
-            })}
+              ))}
+              <div
+                onClick={() => handleCategoryClick(null)}
+                className={`text-center text-lg font-bold cursor-pointer ${selectedCategory === null ? 'text-gray-600' : 'text-white hover:text-gray-600'}`}
+              >
+                ALL BLOGS
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {blogs.map((item) => {
+                return (
+                  <div
+                    key={item._id}
+                    onClick={() => router.push(`/blog/${item.title}`)}
+                    className="bg-white rounded-lg shadow-lg p-6 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300 cursor-pointer"
+                  >
+                    <Image
+                      src={item.image}
+                      alt='foto'
+                      width={250}
+                      height={250}
+                      className="mb-4 rounded border mx-auto"
+                    />
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">{item.title}</h2>
+                    <p className="text-gray-600 text-justify" >
+                      {truncateContent(item.content, 50)}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
     </>
-    
   )
 }
 

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AdminNavbar from '../../components/navbar/AdminNavbar'
 import AdminNavbar2 from '../../components/navbar2/AdminNavbar2'
+import { htmlToText } from 'html-to-text'
 
 const BlogList = () => {
 
@@ -33,8 +34,8 @@ const BlogList = () => {
   }, []);
 
   const truncateContent = (content: string, length: number) => {
-    return content.length > length ? content.slice(0, length) + '...' : content;
-  };
+    const textContent = htmlToText(content, { wordwrap: false });
+    return textContent.length > length ? textContent.slice(0, length) + '...' : textContent;  };
 
   return (
     <div className="min-h-screen">

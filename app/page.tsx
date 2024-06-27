@@ -11,20 +11,21 @@ import Navbar2 from "./components/navbar2/Navbar2";
 import Footer from "./components/footer/page";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
+import Script from "next/script";
 
 interface IFaqItem {
-  question:string,
-  answer:string
+  question: string;
+  answer: string;
 }
 
-
-const Home =()=> {
+const Home = () => {
   const router = useRouter();
   const handleClick = () => {
     router.push('/ftf');
   };
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
   const [faqJsonLd, setFaqJsonLd] = useState<string>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -97,49 +98,86 @@ const Home =()=> {
     ]
   };
 
+  console.log(faqJsonLd, "mainEntity");
 
-  console.log(faqJsonLd,"mainEntity")
+  // İçindekiler yapısını oluşturma
+  const contents = [
+    { id: "agreement", label: "Agreement" },
+    { id: "introduction", label: "Omegle Online Video Chat" },
+    { id: "last4blog", label: "Latest 3 Blog" },
+    { id: "faqs", label: "FAQs" },
+    { id: "testimonials", label: "References" },
+  ];
+
   return (
     <>
+      <Head>
+        <title>Omegle Online Video Chat</title>
+      </Head>
 
-    <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-        />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: faqJsonLd }}
-          />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: faqJsonLd }}
+      />
 
-      <div>
 
-        
-       
-        <div className="pt-4">
-          <div className="fixed top-0 w-full z-10">
-            <Navbar />
-          </div>
-          <div className="mt-14 md:mt-16">
-            <Navbar2 />
-          </div>
+      <div className="pt-4">
+        <div className="fixed top-0 w-full z-10">
+          <Navbar />
         </div>
-        <div className="ml-8 mt-4">
-          <Breadcrumb />
+        <div className="mt-14 md:mt-16">
+          <Navbar2 />
         </div>
-        <div className="flex flex-col items-center justify-center">
+      </div>
+      <div className="ml-8 mt-4">
+        <Breadcrumb />
+      </div>
+      <div className="flex flex-col items-center justify-center">
+
+        <section id="agreement" className="pt-20">
           <Agreement />
+        </section>
+
+        <div className="w-full opacity-85 max-w-screen-md mb-16 p-4 bg-gradient-to-r from-rose-300 via-pink-600 to-indigo-500 rounded-lg shadow-lg text-white">
+          <div className="flex justify-left items-center space-x-4 space-y-4">
+            <h2 className="text-2xl font-bold">Contents</h2>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-white focus:outline-none hover:text-blue-600 "
+            >
+              {isOpen ? "[ close ]" : "[ open ]"}
+            </button>
+          </div>
+          {isOpen && (
+            <ul className="mt-4 space-y-2">
+              {contents.map((content) => (
+                <li key={content.id} className="text-lg">
+                  <a href={`#${content.id}`} className="text-white hover:text-blue-600 transition duration-300">
+                    {content.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <section id="introduction" className="pt-20">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-8 text-white text-center">
             Omegle Online Video Chat
           </h1>
@@ -158,37 +196,36 @@ const Home =()=> {
               </div>
             </div>
           </div>
-          <div className="max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
-            <Last4Blog />
-          </div>
-          <div className="max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
-            <Faqs />
-          </div>
-          <div className="max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
-            <p className="mt-16 flex justify-center text-3xl font-bold text-white">References</p>
-            <TestimonialsCarousel />
-          </div>
-          <div className="w-full">
-            <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-8">
-              <h2 className="text-xl md:text-2xl font-extrabold mb-4 text-center">Connect Globally, Talk to Strangers Right Now!</h2>
-              <div className="p-2 flex items-center justify-center">
-                <button
-                  onClick={handleClick}
-                  className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-72 md:w-72 rounded-full"
-                >
-                  Start Chat
-                </button>
-              </div>
-              <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New Friends Make New Friends Make New Friends</p>
+        </section>
+
+        <section id="last4blog" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
+          <Last4Blog />
+        </section>
+        <section id="faqs" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
+          <Faqs />
+        </section>
+        <section id="testimonials" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
+          <p className="mt-16 flex justify-center text-3xl font-bold text-white">References</p>
+          <TestimonialsCarousel />
+        </section>
+        <div className="w-full">
+          <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-8">
+            <h2 className="text-xl md:text-2xl font-extrabold mb-4 text-center">Connect Globally, Talk to Strangers Right Now!</h2>
+            <div className="p-2 flex items-center justify-center">
+              <button
+                onClick={handleClick}
+                className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-72 md:w-72 rounded-full"
+              >
+                Start Chat
+              </button>
             </div>
+            <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New Friends Make New Friends Make New Friends</p>
           </div>
         </div>
-        {/* <div className="cookie-banner">
-          <CookieConsent />
-        </div> */}
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
-export default Home
+
+export default Home;

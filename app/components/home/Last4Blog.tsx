@@ -1,5 +1,6 @@
 "use client"
 
+import { htmlToText } from 'html-to-text'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -40,8 +41,8 @@ const Last3Blog = () => {
 
 
   const truncateContent = (content: string, length: number) => {
-    return content.length > length ? content.slice(0, length) + '...' : content;
-  };
+    const textContent = htmlToText(content, { wordwrap: false });
+    return textContent.length > length ? textContent.slice(0, length) + '...' : textContent;  };
 
   const latestBlogs = blogs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 3);

@@ -4,6 +4,10 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
 import AdminNavbar2 from '../../components/navbar2/AdminNavbar2';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const BlogDetail = () => {
   const params = useParams();
@@ -70,14 +74,17 @@ const BlogDetail = () => {
     }
   }, [detailId, blogs]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleContentChange = (value: string) => {
+    setFormData({ ...formData, content: value });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Update blog logic
     const res = await fetch(`/api/blogs/${detailId}`, {
       method: 'PUT',
       headers: {
@@ -99,9 +106,8 @@ const BlogDetail = () => {
     router.push('/admin/blog/blogList'); // Redirect to the blog list page after deletion
   };
 
-  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];  // Use optional chaining to safely access files[0]
+    const file = e.target.files?.[0];
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData(prevState => ({
@@ -113,7 +119,6 @@ const BlogDetail = () => {
       reader.readAsDataURL(file);
     }
   };
-
 
   return (
     <div className="min-h-screen">
@@ -135,7 +140,7 @@ const BlogDetail = () => {
             {isEditing ? (
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="mb-4">
-                  <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Title</label>
+                  <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Başlık</label>
                   <input
                     type="text"
                     id="title"
@@ -146,17 +151,24 @@ const BlogDetail = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="content" className="block text-gray-700 font-bold mb-2">Content</label>
-                  <textarea
-                    id="content"
-                    name="content"
+                  <label htmlFor="content" className="block text-gray-700 font-bold mb-2">İçerik</label>
+                  <ReactQuill
                     value={formData.content}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border rounded-lg"
-                    rows={10}
+                    onChange={handleContentChange}
+                    className="w-full h-64"
+                    theme="snow"
+                    modules={{
+                      toolbar: [
+                        [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['bold', 'italic', 'underline'],
+                        ['link', 'image'],
+                        [{ 'align': [] }],
+                      ]
+                    }}
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 pt-8">
                   <label htmlFor="categoryId" className="block text-gray-700 font-bold mb-2">Kategori</label>
                   <select
                     id="categoryId"
@@ -174,48 +186,45 @@ const BlogDetail = () => {
                   </select>
                 </div>
                 <div>
-            <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-              Resim
-            </label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              required
-            />
-            {formData.image && (
-              <Image src={formData.image} alt="Seçilen Resim" className="mt-2 rounded-md" width={250} height={250} />
-            )}
-          </div>
+                  <label htmlFor="image" className="block text-sm font-medium text-gray-700">Resim</label>
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                  />
+                  {formData.image && (
+                    <Image src={formData.image} alt="Seçilen Resim" className="mt-2 rounded-md" width={250} height={250} />
+                  )}
+                </div>
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">
-                  Update Blog
+                  Blogu Güncelle
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsEditing(false)}
                   className="bg-gray-500 text-white px-4 py-2 rounded-lg ml-2"
                 >
-                  Cancel
+                  İptal
                 </button>
               </form>
             ) : (
               <>
                 <h2 className="text-xl font-bold text-gray-800 mb-4">{selectedBlog?.title}</h2>
-                <p className="text-gray-600 text-justify">{selectedBlog?.content}</p>
+                <div className="text-gray-600 text-justify" dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
                 <div className="flex space-x-4 mt-4">
                   <button
                     onClick={() => setIsEditing(true)}
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg"
                   >
-                    Edit Blog
+                    Blogu Düzenle
                   </button>
                   <button
                     onClick={handleDelete}
                     className="bg-red-500 text-white px-4 py-2 rounded-lg"
                   >
-                    Delete Blog
+                    Blogu Sil
                   </button>
                 </div>
               </>

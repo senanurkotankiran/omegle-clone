@@ -3,6 +3,11 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import AdminNavbar from '../../components/navbar/AdminNavbar';
 import AdminNavbar2 from '../../components/navbar2/AdminNavbar2';
+import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+
+// React-Quill'i dinamik olarak yüklemek
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const BlogForm = () => {
   interface ICategoryItem {
@@ -20,7 +25,6 @@ const BlogForm = () => {
     categoryId: '',
     question:'',
     answer:'',
-    
   });
 
   useEffect(() => {
@@ -46,11 +50,10 @@ const BlogForm = () => {
     }));
   };
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleQuillChange = (value: string) => {
     setFormData(prevState => ({
       ...prevState,
-      [name]: value,
+      content: value,
     }));
   };
 
@@ -147,13 +150,20 @@ const BlogForm = () => {
             <label htmlFor="content" className="block text-sm font-medium">
               İçerik
             </label>
-            <textarea
-              name="content"
+            <ReactQuill
               value={formData.content}
-              onChange={handleTextareaChange}
-              className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              rows={6}
-              required
+              onChange={handleQuillChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md"
+              theme="snow"
+              modules={{
+                toolbar: [
+                  [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                  ['bold', 'italic', 'underline'],
+                  ['link', 'image'],
+                  [{ 'align': [] }],
+                ]
+              }}
             />
           </div>
           <div>
@@ -172,12 +182,6 @@ const BlogForm = () => {
               <Image src={formData.image} alt="Seçilen Resim" className="mt-2 rounded-md" width={1000} height={200} />
             )}
           </div>
-
-
-
-
-        
-
           <div>
             <button
               type="submit"
