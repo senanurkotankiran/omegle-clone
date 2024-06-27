@@ -6,6 +6,7 @@ import { useRouter, useParams } from 'next/navigation'
 import Navbar from '../../components/navbar/Navbar'
 import Footer from '../../components/footer/page'
 import Navbar2 from '../../components/navbar2/Navbar2'
+import { htmlToText } from 'html-to-text'
 
 
 const Category = () => {
@@ -40,8 +41,8 @@ const Category = () => {
   }, [decodedTitle]);
 
   const truncateContent = (content: string, length: number) => {
-    return content.length > length ? content.slice(0, length) + '...' : content;
-  };
+    const textContent = htmlToText(content, { wordwrap: false });
+    return textContent.length > length ? textContent.slice(0, length) + '...' : textContent;  };
 
   const toLowerCaseTitle = (title: string) => {
     return encodeURIComponent(title.toLowerCase().replace(/ /g, '-'));
