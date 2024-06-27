@@ -9,6 +9,7 @@ const FaqList = () => {
     _id: string;
     question: string;
     answer: string;
+    blogId?: {_id:string , title:string}
   }
 
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
@@ -79,6 +80,7 @@ const FaqList = () => {
                   <tr>
                     <th className="py-2 px-4 border-b border-gray-200 bg-gray-100">Question</th>
                     <th className="py-2 px-4 border-b border-gray-200 bg-gray-100">Answer</th>
+                    <th className="py-2 px-4 border-b border-gray-200 bg-gray-100">Blog Title</th>
                     <th className="py-2 px-4 border-b border-gray-200 bg-gray-100">Actions</th>
                   </tr>
                 </thead>
@@ -87,6 +89,7 @@ const FaqList = () => {
                     <tr key={item._id}>
                       <td className="py-2 px-4 border-b border-gray-200">{item.question}</td>
                       <td className="py-2 px-4 border-b border-gray-200">{item.answer}</td>
+                      <td className="py-2 px-4 border-b border-gray-200">{item.blogId?.title}</td>
                       <td className="py-2 px-4 border-b border-gray-200">
                         <button
                           onClick={() => handleEditClick(item)}

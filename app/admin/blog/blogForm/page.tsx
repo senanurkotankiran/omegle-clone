@@ -18,6 +18,9 @@ const BlogForm = () => {
     author: '',
     image: '',
     categoryId: '',
+    question:'',
+    answer:'',
+    
   });
 
   useEffect(() => {
@@ -82,7 +85,7 @@ const BlogForm = () => {
       },
       body: JSON.stringify(formData),
     });
-    setFormData({ title: '', content: '', author: '', image: '', categoryId: '' });
+    setFormData({ title: '', content: '', author: '', image: '', categoryId: '', question: '', answer: '' });
   };
 
   return (
@@ -169,6 +172,12 @@ const BlogForm = () => {
               <Image src={formData.image} alt="Seçilen Resim" className="mt-2 rounded-md" width={1000} height={200} />
             )}
           </div>
+
+
+
+
+        
+
           <div>
             <button
               type="submit"

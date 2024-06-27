@@ -4,11 +4,11 @@ import Testimonial from '@/models/Testimonial';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDatabase();
+  const { id } = req.query;
 
   if (req.method === 'DELETE') {
-    const { testimonialId } = req.body;
     try {
-      const deleteTestimonial = await Testimonial.findByIdAndDelete(testimonialId);
+      const deleteTestimonial = await Testimonial.findByIdAndDelete(id);
       if (!deleteTestimonial) {
         return res.status(404).json({ error: 'Silinecek Referans bulunamadı' });
       }

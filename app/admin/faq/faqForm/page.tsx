@@ -6,32 +6,39 @@ import AdminNavbar2 from '@/app/admin/components/navbar2/AdminNavbar2';
 import { IFaq } from '@/models/Faq';
 
 const FaqForm = () => {
+  interface IBlogItem {
+    _id: string;
+    title: string;
+  }
+
   const [faqs, setFaqs] = useState<IFaq[]>([]);
+  const [blogs, setBlogs] = useState<IBlogItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     question: '',
     answer: '',
+    blogId: '', // blogId'yi ekliyoruz
   });
 
   useEffect(() => {
-    const fetchFaqs = async () => {
+    const fetchBlogs = async () => {
       try {
-        const res = await fetch('/api/faqs');
+        const res = await fetch('/api/blogs');
         if (!res.ok) {
-          throw new Error('Verileri alma başarısız oldu');
+          throw new Error('Blogları alma başarısız oldu');
         }
         const data = await res.json();
-        setFaqs(data);
+        setBlogs(data);
       } catch (error: any) {
-        console.error('Verileri alırken hata oluştu:', error);
+        console.error('Blogları alırken hata oluştu:', error);
         setError(error.message);
       }
     };
 
-    fetchFaqs();
+    fetchBlogs();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -42,13 +49,20 @@ const FaqForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    // blogId boş ise undefined olarak ayarla
+    const submitData = {
+      ...formData,
+      blogId: formData.blogId || undefined,
+    };
+
     try {
       const response = await fetch('/api/faqs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       });
 
       if (!response.ok) {
@@ -58,7 +72,7 @@ const FaqForm = () => {
 
       const newFaq = await response.json();
       setFaqs((prevFaqs) => [...prevFaqs, newFaq]);
-      setFormData({ question: '', answer: '' });
+      setFormData({ question: '', answer: '', blogId: '' }); // Formu sıfırla
     } catch (error: any) {
       setError(error.message || 'Bir hata oluştu');
     }
@@ -79,7 +93,7 @@ const FaqForm = () => {
           <h1 className="text-2xl mb-8 font-bold">FAQ Form</h1>
           {error && <p className="text-red-500">{error}</p>}
           <div className="mb-4">
-            <label className="block mb-2 text-sm">Question</label>
+            <label className="block mb-2 text-sm">Soru</label>
             <input
               type="text"
               name="question"
@@ -89,7 +103,7 @@ const FaqForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-2 text-sm">Answer</label>
+            <label className="block mb-2 text-sm">Cevap</label>
             <input
               type="text"
               name="answer"
@@ -98,11 +112,25 @@ const FaqForm = () => {
               className="w-full p-2 border rounded-lg"
             />
           </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-sm">Blog</label>
+            <select
+              name="blogId"
+              value={formData.blogId}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-lg"
+            >
+              <option value="">Blog seçin (opsiyonel)</option>
+              {blogs.map((blog) => (
+                <option key={blog._id} value={blog._id}>{blog.title}</option>
+              ))}
+            </select>
+          </div>
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
           >
-            Save
+            Kaydet
           </button>
         </form>
       </div>

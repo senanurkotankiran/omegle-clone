@@ -4,11 +4,11 @@ import Faq, { IFaq } from '@/models/Faq';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDatabase();
+  const { id } = req.query;
 
   if (req.method === 'DELETE') {
-    const { faqId } = req.body;
     try {
-      const deleteFaq = await Faq.findByIdAndDelete(faqId);
+      const deleteFaq = await Faq.findByIdAndDelete(id);
       if (!deleteFaq) {
         return res.status(404).json({ error: 'Silinecek Faq bulunamadı' });
       }

@@ -1,37 +1,39 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import connectToDatabase from '@/lib/mongoose';
 import Faq, { IFaq } from '@/models/Faq';
+import Blog from '@/models/Blog';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDatabase();
 
   if (req.method === 'POST') {
-    const { question, answer } = req.body;
+    const { question, answer, blogId } = req.body;
     try {
-      const faq: IFaq = await Faq.create({ question, answer });
+      const faq: IFaq = await Faq.create({ question, answer, blogId });
       res.status(201).json(faq);
     } catch (error) {
-      res.status(500).json({ error: 'Faq eklenemedi' });
+      res.status(500).json({ error: 'FAQ could not be added' });
     }
   } else if (req.method === 'GET') {
+    const { blog } = req.query;
+
     try {
-      const faqs: IFaq[] = await Faq.find({});
+      let faqs: IFaq[];
+      if (blog) {
+        const categoryDoc = await Blog.findOne({ title: blog });
+        if (categoryDoc) {
+          faqs = await Faq.find({ blogId: categoryDoc._id }).populate('blogId');
+        } else {
+          faqs = [];
+        }
+      } else {
+        faqs = await Faq.find({}).populate('blogId');
+      }
       res.status(200).json(faqs);
     } catch (error) {
-      res.status(500).json({ error: 'Faqs alınamadı' });
+      res.status(500).json({ error: 'Bloglar alınamadı' });
     }
-  } else if (req.method === 'DELETE') {
-    const { faqId } = req.body;
-    try {
-      const deleteFaq = await Faq.findByIdAndDelete(faqId);
-      if (!deleteFaq) {
-        return res.status(404).json({ error: 'Silinecek Faq bulunamadı' });
-      }
-      res.status(200).json({ message: 'Faq başarıyla silindi' });
-    } catch (error) {
-      res.status(500).json({ error: 'Faq silinemedi' });
-    }
-  } else {
-    res.status(405).json({ error: 'Yalnızca POST, GET ve DELETE istekleri kabul edilir' });
+  }  else {
+    res.status(405).json({ error: 'Only POST, GET and DELETE requests are accepted' });
   }
 }

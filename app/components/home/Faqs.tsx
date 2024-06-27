@@ -2,25 +2,32 @@
 import React, { useEffect, useState } from 'react'
 
 const Faqs = () => {
+  // SSS öğelerinin yapısını tanımlayan arayüz
   interface IFaqItem {
     _id: string;
     question: string;
     answer: string;
+    blogId?: string; // blogId alanı isteğe bağlı
   }
 
+  // SSS öğeleri ve açık olan SSS öğesinin indeksini tutan durumlar
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
   const [openIndex, setOpenIndex] = useState<string | null>(null);
 
+  // SSS öğelerini API'den çeken ve duruma atan işlev
   useEffect(() => {
     const fetchFaqs = async () => {
       const res = await fetch('/api/faqs');
       const data = await res.json();
-      setFaqs(data);
+      // blogId alanı olmayan SSS öğelerini filtrele
+      const filteredFaqs = data.filter((faq: IFaqItem) => !faq.blogId);
+      setFaqs(filteredFaqs);
     };
 
     fetchFaqs();
   }, []);
 
+  // Bir SSS öğesini açıp kapatan işlev
   const toggleFaq = (id: string) => {
     setOpenIndex(openIndex === id ? null : id);
   };
