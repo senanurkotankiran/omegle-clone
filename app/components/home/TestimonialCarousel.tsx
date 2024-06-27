@@ -54,7 +54,7 @@ const TestimonialsCarousel: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-4 px-4 pb-12"> 
+    <div className="max-w-6xl mx-auto py-4 px-8 pb-12"> 
       <Slider {...settings}>
         {testimonials.map((testimonial) => (
           <div key={testimonial._id} className="p-4">
