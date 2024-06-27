@@ -139,7 +139,7 @@ const BlogDetail = () => {
               {selectedBlog?.image && (
                 <Image src={selectedBlog.image} alt={selectedBlog.title} width={500} height={500} className="mb-4" />
               )}
-              <h2 className="text-xl font-bold text-gray-800 mb-4">{selectedBlog?.title}</h2>
+              <h2 className="text-xl font-bold text-gray-800 mb-4 capitalize">{selectedBlog?.title}</h2>
               <span className='text-xs pb-8'>{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
               <div className="text-gray-600 text-justify " dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
               <span className=' w-full items-right text-xs p-8 pb-4 text-gray-700 text-right'>

@@ -138,7 +138,7 @@ const Home = () => {
 
 
       <div className="pt-4">
-        <div className="fixed top-0 w-full z-10">
+        <div className="fixed top-0 z-10">
           <Navbar />
         </div>
         <div className="mt-14 md:mt-16">

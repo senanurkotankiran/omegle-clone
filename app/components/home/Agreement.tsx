@@ -10,7 +10,7 @@ const Agreement = () => {
     router.push('/ftf')
   }
   return (
-    <div className=" flex-auto justify-center items-center  m-24">
+    <div className=" flex-auto justify-center items-center mb-24 mt-24">
     <div className="bg-white rounded shadow-custom-inset p-6 pt-8 max-w-xl h-96 overflow-y-auto relative ">
       <p className="text-black text-left text-xs">You dont need an app to use Omegle on your phone or tablet! The web site works great on mobile.</p>
       <h2 className=" font-bold text-gray-800 mb-4 pt-8 text-center">Omegle: Talk to strangers!</h2>

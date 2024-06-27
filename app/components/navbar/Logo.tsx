@@ -8,7 +8,7 @@ const Logo = () => {
         <Image src="/omegleLogo.webp" alt="Logo" width={200} height={200} />
      
      
-        <Image src="/logo2.webp" alt="Logo" width={200} height={200} />
+        <Image src="/logo2.webp" alt="Logo" width={150} height={200} />
       
 </div>
 

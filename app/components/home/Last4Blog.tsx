@@ -63,7 +63,7 @@ const Last3Blog = () => {
               height={250} 
               className="mb-4 rounded border mx-auto" 
             />
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">{item.title}</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 capitalize">{item.title}</h2>
             <p className="text-gray-600 text-justify">
               {truncateContent(item.content, 100)}
             </p>
