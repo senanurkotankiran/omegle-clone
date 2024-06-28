@@ -10,12 +10,12 @@ import Navbar from "./components/navbar/Navbar";
 import Navbar2 from "./components/navbar2/Navbar2";
 import Footer from "./components/footer/page";
 import { useRouter } from "next/navigation";
-import Head from "next/head";
-import Script from "next/script";
 
 interface IFaqItem {
   question: string;
   answer: string;
+  blogId?: string; // blogId alanı isteğe bağlı
+
 }
 
 const Home = () => {
@@ -29,14 +29,15 @@ const Home = () => {
 
   useEffect(() => {
     const fetchFaqs = async () => {
-      const res = await fetch("/api/faqs");
+      const res = await fetch('/api/faqs');
       const data = await res.json();
-      setFaqs(data);
-
+      // blogId alanı olmayan SSS öğelerini filtrele
+      const filteredFaqs = data.filter((faq: IFaqItem) => !faq.blogId);
+      setFaqs(filteredFaqs);
       const generatedFaqJsonLd = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        "mainEntity": data.map((faq: IFaqItem) => ({
+        "mainEntity": filteredFaqs.map((faq: IFaqItem) => ({
           "@type": "Question",
           "name": faq.question,
           "acceptedAnswer": {
@@ -47,10 +48,13 @@ const Home = () => {
       };
 
       setFaqJsonLd(JSON.stringify(generatedFaqJsonLd));
+    
     };
 
     fetchFaqs();
   }, []);
+
+
 
   const jsonLdWebSite = {
     "@context": "https://schema.org",
@@ -111,10 +115,8 @@ const Home = () => {
 
   return (
     <>
-      <Head>
-        <title>Omegle Online Video Chat</title>
-      </Head>
 
+  
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
@@ -136,6 +138,8 @@ const Home = () => {
         dangerouslySetInnerHTML={{ __html: faqJsonLd }}
       />
 
+
+      
 
       <div className="pt-4">
         <div className="fixed top-0 z-10">

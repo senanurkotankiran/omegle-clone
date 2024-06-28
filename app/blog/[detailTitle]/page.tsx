@@ -6,18 +6,15 @@ import Navbar from '@/app/components/navbar/Navbar'
 import Navbar2 from '@/app/components/navbar2/Navbar2'
 import Image from 'next/image'
 import { format } from 'date-fns';
-
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { NextPageContext } from 'next'
-import Faqs from '@/app/components/home/Faqs'
+import Head from 'next/head'
 
 const BlogDetail = () => {
-
   const params = useParams();
   const detailTitle = Array.isArray(params?.detailTitle) ? params.detailTitle[0] : params?.detailTitle || '';
   const decodedTitle = decodeURIComponent(detailTitle.replace(/-/g, ' '));
-  
+
   interface IBlogItem {
     _id: string;
     title: string;
@@ -35,31 +32,28 @@ const BlogDetail = () => {
     blogId?: { _id: string; title: string };
   }
 
-  // SSS öğeleri ve açık olan SSS öğesinin indeksini tutan durumlar
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
+  const [faqJsonLd, setFaqJsonLd] = useState<string>("");
   const [openIndex, setOpenIndex] = useState<string | null>(null);
-
   const [blogs, setBlogs] = useState<IBlogItem[]>([]);
   const [selectedBlog, setSelectedBlog] = useState<IBlogItem | null>(null);
   const [pageTitle, setPageTitle] = useState('Loading...')
 
   const router = useRouter();
+  const pathname = usePathname();
   const handleClick = () => {
     router.push('/ftf');
   }
 
-  // Blog verilerini API'den çek ve duruma ata
   useEffect(() => {
     const fetchBlogs = async () => {
       const res = await fetch('/api/blogs');
       const data = await res.json();
       setBlogs(data);
     };
-
     fetchBlogs();
   }, []);
 
-  // Seçili blogu belirle
   useEffect(() => {
     if (blogs.length > 0) {
       const blog = blogs.find((blog) => blog.title.toLowerCase() === decodedTitle.toLowerCase()) || null;
@@ -67,21 +61,19 @@ const BlogDetail = () => {
     }
   }, [decodedTitle, blogs]);
 
-  // Sayfa başlığını güncelle
   useEffect(() => {
     if (selectedBlog) {
       setPageTitle(selectedBlog.title);
     }
   }, [selectedBlog]);
 
-  // URL'yi blog başlığı ile güncelle
   const formatTitleForURL = (title: string) => {
     return encodeURIComponent(
       title
         .toLowerCase()
         .replace(/ /g, '-')
         .replace(/\./g, '-')
-    )
+    );
   }
 
   useEffect(() => {
@@ -97,6 +89,20 @@ const BlogDetail = () => {
       const data = await res.json();
       const filteredFaqs = selectedBlog ? data.filter((faq: IFaqItem) => faq.blogId?.title === selectedBlog.title) : [];
       setFaqs(filteredFaqs);
+
+      const generatedFaqJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": filteredFaqs.map((faq: IFaqItem) => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer,
+          },
+        })),
+      };
+      setFaqJsonLd(JSON.stringify(generatedFaqJsonLd));
     };
 
     if (selectedBlog) {
@@ -104,23 +110,146 @@ const BlogDetail = () => {
     }
   }, [selectedBlog]);
 
-
-  // Bir SSS öğesini açıp kapatan işlev
   const toggleFaq = (id: string) => {
     setOpenIndex(openIndex === id ? null : id);
   };
 
+  const generateMetadata = () => {
+    return {
+      title: selectedBlog ? selectedBlog.title : 'Blog Detail',
+      description: selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more',
+      keywords: selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article',
+    };
+  };
+
+  const metadata = generateMetadata();
+
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Omegle",
+    "url": "https://omegle-mu.vercel.app",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://omegle-mu.vercel.app/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const jsonLdOrganization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Omegle",
+    "url": "https://omegle-mu.vercel.app",
+    "logo": "https://omegle-mu.vercel.app/static/logo.png",
+    "sameAs": [
+      "https://www.facebook.com/Omegle",
+      "https://twitter.com/Omegle",
+      "https://www.instagram.com/Omegle"
+    ]
+  };
+
+  const jsonLdWebPage = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": selectedBlog ? selectedBlog.title : "Omegle: Talk to Strangers",
+    "description": selectedBlog ? selectedBlog.content.substring(0, 160) : "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
+    "url": `https://omegle-mu.vercel.app${pathname}`,
+    "breadcrumb": {
+      "@id": `https://omegle-mu.vercel.app${pathname}#breadcrumb`
+    },
+    "inLanguage": "en-US",
+    "potentialAction": [
+      {
+        "@type": "ReadAction",
+        "target": [`https://omegle-mu.vercel.app${pathname}`]
+      }
+    ]
+  };
+
+  const jsonLdBreadcrumb = selectedBlog ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://omegle-mu.vercel.app"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": selectedBlog.categoryId.name,
+        "item": `https://omegle-mu.vercel.app/category/${selectedBlog.categoryId._id}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": selectedBlog.title,
+        "item": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+      }
+    ]
+  } : null;
+
+  const jsonLdArticle = selectedBlog ? {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}#article`,
+    "isPartOf": {
+      "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+    },
+    "author": {
+      "name": selectedBlog.author,
+      "@id": "https://omegle-mu.vercel.app/#/schema/person/1"
+    },
+    "headline": selectedBlog.title,
+    "datePublished": selectedBlog.createdAt,
+    "dateModified": selectedBlog.createdAt,
+    "mainEntityOfPage": {
+      "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+    },
+    "wordCount": selectedBlog.content.split(' ').length,
+    "publisher": {
+      "@id": "https://omegle-mu.vercel.app/#organization"
+    },
+    "keywords": selectedBlog.title.split(' '),
+    "articleSection": [selectedBlog.categoryId.name],
+    "inLanguage": "en-US"
+  } : null;
+
   return (
     <>
       <head>
-        <title>{pageTitle}</title>
-        <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
-        <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <meta name="keywords" content={metadata.keywords} />
         <meta name="robots" content="index, follow" />
       </head>
-
-      
-        
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+        />
+        {jsonLdBreadcrumb && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+          />
+        )}
+        {jsonLdArticle && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+          />
+        )}
       <div className="min-h-screen">
         <div className="pt-4">
           <div className="fixed top-0 w-full z-10">
@@ -188,7 +317,6 @@ const BlogDetail = () => {
               </div>
             </div>
           </div>
-
         </main>
         <div className="w-full">
           <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-8">

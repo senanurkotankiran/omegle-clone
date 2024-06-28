@@ -1,4 +1,3 @@
-"use client"
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Breadcrumb from '../components/breadcrumb/Breadcrumb'
@@ -7,7 +6,20 @@ import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
 import Link from 'next/link'
 import ContactUs from '../components/about/ContactUs'
+import { Metadata } from 'next'
+import Head from 'next/head'
 
+
+
+export const metadata: Metadata = {
+  title: "About - Omegle: Talk to strangers!",
+  description: "Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other.",
+  keywords: "Omegle, chat, meet new people, secure chat, online friends",
+  robots: "index, follow",
+  icons: {
+    icon: '/favicon.png', // /public path
+  },
+};
 
 const About = () => {
   const jsonLdWebSite = {
@@ -62,44 +74,13 @@ const About = () => {
     ]
   };
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const [showToast, setShowToast] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Form gönderme işlemini burada gerçekleştirin
-    setShowToast(true);
-    setName('');
-    setEmail('');
-    setMessage('');
-  };
-
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => setShowToast(false), 3000); 
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
-
+ 
   return (
     
 <>
-<head>
-        <title>About - Omegle: Yabancılarla Konuş!</title>
-        <meta name="description" content="Omegle yeni arkadaşlar edinmek için harika bir yerdir. Omegle kullanıldığında, başka bir kullanıcıyı rastgele seçer ve birbirinizle bire bir sohbet etmenize olanak tanır." />
-        <meta name="keywords" content="Omegle, sohbet, yeni insanlarla tanışma, güvenli sohbet, çevrimiçi arkadaşlar"/>
-        <meta name="robots" content="index, follow" />
-
-</head>
 
 
-
-
-
-        <script
+ <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />

@@ -7,6 +7,12 @@ import Navbar from '../components/navbar/Navbar'
 import Footer from '../components/footer/page'
 import Navbar2 from '../components/navbar2/Navbar2'
 import { htmlToText } from 'html-to-text';
+import Head from 'next/head'
+import { Metadata } from 'next'
+
+
+
+
 
 const Blog = () => {
 

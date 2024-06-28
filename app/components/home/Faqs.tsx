@@ -14,6 +14,7 @@ const Faqs = () => {
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
   const [openIndex, setOpenIndex] = useState<string | null>(null);
 
+
   // SSS öğelerini API'den çeken ve duruma atan işlev
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -22,6 +23,8 @@ const Faqs = () => {
       // blogId alanı olmayan SSS öğelerini filtrele
       const filteredFaqs = data.filter((faq: IFaqItem) => !faq.blogId);
       setFaqs(filteredFaqs);
+
+    
     };
 
     fetchFaqs();
@@ -33,7 +36,12 @@ const Faqs = () => {
   };
 
   return (
+
+ 
+
     <div className="mt-12">
+
+
       <h2 className="text-3xl flex justify-center font-bold mb-4 text-white">FAQs</h2>
       <div>
         {faqs.map((item) => (

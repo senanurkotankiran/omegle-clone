@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   description: "Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other.",
   keywords: "Omegle, chat, meet new people, secure chat, online friends",
   robots: "index, follow",
+  icons: {
+    icon: '/favicon.png', // /public path
+  },
 };
 
 export default function RootLayout({
