@@ -23,7 +23,7 @@ export default function RootLayout({
 
 
   return (
-    <html lang="en">
+    <html lang="en-US">
      <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other."/>

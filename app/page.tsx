@@ -23,9 +23,28 @@ const Home = () => {
   const handleClick = () => {
     router.push('/ftf');
   };
+  
+  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([])
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
   const [faqJsonLd, setFaqJsonLd] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+
+
+  useEffect(() => {
+    // Başlıkları toplamak ve id eklemek
+    const headingElements = Array.from(document.querySelectorAll('h1, h2, h3'));
+    const headingTexts = headingElements.map((heading, index) => {
+      const id = `heading-${index}`;
+      heading.id = id;
+      return { id, text: heading.textContent || '' };
+    });
+    setHeadings(headingTexts);
+   },[]);
+
+  
+
+
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -160,7 +179,7 @@ const Home = () => {
 
         <div className="w-full opacity-85 max-w-screen-md mb-16 p-4 bg-gradient-to-r from-rose-300 via-pink-600 to-indigo-500 rounded-lg shadow-lg text-white">
           <div className="flex justify-left items-center space-x-4 space-y-4">
-            <h2 className="text-2xl font-bold">Contents</h2>
+            <p className="text-2xl font-bold">Contents</p>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-white focus:outline-none hover:text-blue-600 "
@@ -170,10 +189,10 @@ const Home = () => {
           </div>
           {isOpen && (
             <ul className="mt-4 space-y-2">
-              {contents.map((content) => (
+              {headings.map((content) => (
                 <li key={content.id} className="text-lg">
                   <a href={`#${content.id}`} className="text-white hover:text-blue-600 transition duration-300">
-                    {content.label}
+                    {content.text}
                   </a>
                 </li>
               ))}

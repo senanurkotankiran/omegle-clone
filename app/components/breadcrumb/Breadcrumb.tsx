@@ -42,13 +42,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ title, category }) => {
         </>
       )}
       {isCategoryPage && category && (
-        <>
-          <span className="mx-2">{'>'}</span>
-          <Link href="/blog">
-            <p className="text-gray-100 hover:text-black font-bold hover:bg-white hover:rounded-lg hover:opacity-75 capitalize p-1">
-              Category
-            </p>
-          </Link>
+        <>   
           <span className="mx-2">{'>'}</span>
           <span className="text-white capitalize">{decodeURIComponent(category)}</span>
         </>

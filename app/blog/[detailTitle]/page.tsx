@@ -270,7 +270,9 @@ const BlogDetail = () => {
               )}
               <h2 className="text-xl font-bold text-gray-800 mb-4 capitalize">{selectedBlog?.title}</h2>
               <span className='text-xs pb-8'>{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
-              <div className="text-gray-600 text-justify " dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
+              <div className="text-gray-600 text-justify quill-content" dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
+
+
               <span className=' w-full items-right text-xs p-8 pb-4 text-gray-700 text-right'>
                 {selectedBlog?.createdAt && format(new Date(selectedBlog.createdAt), 'MMMM dd, yyyy')}
               </span>
