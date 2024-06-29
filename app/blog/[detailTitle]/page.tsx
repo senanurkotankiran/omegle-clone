@@ -40,6 +40,7 @@ const BlogDetail = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [faqJsonLd, setFaqJsonLd] = useState<string>("");
 
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -123,6 +124,7 @@ const BlogDetail = () => {
     }
   };
 
+
   useEffect(() => {
     const fetchFaqs = async () => {
       const res = await fetch('/api/faqs');
@@ -150,7 +152,11 @@ const BlogDetail = () => {
     }
   }, [selectedBlog]);
 
-  const jsonLdWebSite = {
+
+
+
+
+ const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Omegle",
@@ -244,14 +250,24 @@ const BlogDetail = () => {
     "inLanguage": "en-US"
   } : null;
 
+
+
+
+
+
+
   return (
     <>
-      <head>
-        <title>{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
+          <head>
+        <title >{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
         <meta name="description" content={selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more'} />
         <meta name="keywords" content={selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article'} />
         <meta name="robots" content="index, follow" />
-      </head>
+          </head>
+
+    
+     
+
 
       <script
         type="application/ld+json"
@@ -278,6 +294,10 @@ const BlogDetail = () => {
         />
       )}
 
+
+
+
+
       <div className="min-h-screen">
         <div className="pt-4">
           <div className="fixed top-0 w-full z-10">
@@ -297,7 +317,7 @@ const BlogDetail = () => {
               <p className="text-2xl font-bold">Contents</p>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white focus:outline-none hover:text-blue-600"
+                className="text-white focus:outline-none hover:text-blue-600 "
               >
                 {isOpen ? "[ close ]" : "[ open ]"}
               </button>
@@ -306,7 +326,7 @@ const BlogDetail = () => {
               <ul className="mt-4 space-y-2">
                 {headings.map((content) => (
                   <li key={content.id} className="text-lg">
-                    <a href={`#${content.id}`}
+                    <a href={`#${content.id}`} 
                       onClick={(e) => handleAnchorClick(e, content.id)}
                       className="text-white hover:text-blue-600 transition duration-300 capitalize">
                       {content.text}
@@ -320,14 +340,7 @@ const BlogDetail = () => {
           <div className="text-left">
             <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center">
               {selectedBlog?.image && (
-                <Image 
-                  src={selectedBlog.image} 
-                  alt={selectedBlog.title} 
-                  width={500} 
-                  height={500} 
-                  layout="intrinsic"
-                  className="mb-4" 
-                />
+                <Image src={selectedBlog.image} alt={selectedBlog.title} width={500} height={500} className="mb-4" />
               )}
               <h2 className="text-xl font-bold text-gray-800 mb-4 capitalize">{selectedBlog?.title}</h2>
               <span className="text-xs pb-8">{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
