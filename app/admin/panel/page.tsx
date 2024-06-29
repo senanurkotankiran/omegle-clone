@@ -74,6 +74,39 @@ const Panel = () => {
             </div>
 
            
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <Link href={"/admin/privacy-policy/privacyForm"}>
+                <div className='font-extrabold border border-dashed border-slate-400 p-10 m-2 text-center text-6xl rounded-lg border-4 mb-4 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300'>
+                  +
+                </div>
+              </Link>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">Privacy Policy Ekle</h2>
+              <p className="text-gray-600 text-center">Privacy Policy eklemek için tıklayın...</p>
+            </div>
+
+           
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <Link href={"/admin/terms-of-service/termsForm"}>
+                <div className='font-extrabold border border-dashed border-slate-400 p-10 m-2 text-center text-6xl rounded-lg border-4 mb-4 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300'>
+                  +
+                </div>
+              </Link>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">Termf Of Service Ekle</h2>
+              <p className="text-gray-600 text-center">Termf Of Service eklemek için tıklayın...</p>
+            </div>
+
+           
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <Link href={"/admin/community-guidelines/communityForm"}>
+                <div className='font-extrabold border border-dashed border-slate-400 p-10 m-2 text-center text-6xl rounded-lg border-4 mb-4 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300'>
+                  +
+                </div>
+              </Link>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2 text-center">Community Guidelines Ekle</h2>
+              <p className="text-gray-600 text-center">Community Guidelines eklemek için tıklayın...</p>
+            </div>
+
+           
 
           </div>
         </div>
