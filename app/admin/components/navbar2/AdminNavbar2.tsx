@@ -1,61 +1,73 @@
-import About from '@/app/components/navbar2/About'
-import Home from '@/app/components/navbar2/Home'
-import Login from '@/app/components/user/Login'
-import Link from 'next/link'
-import React, { useState } from 'react'
+"use client"
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Login from '@/app/components/user/Login';
+import { useSession } from 'next-auth/react';
 
 const AdminNavbar2 = () => {
- 
-  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div>
-        <nav className="flex md:flex-row justify-between items-center px-3 md:px-10 h-auto md:h-14 text-black bg-gradient-to-r from-gray-800 via-gray-800 to-gray-800 space-x-4 md:space-x-6 font-sans text-sm font-bold text-white mt-4 md:mt-0">
+      <nav className="flex flex-col md:flex-row w-full items-center justify-between px-3 md:px-10 h-auto md:h-14 text-white bg-gradient-to-r from-gray-800 via-gray-800 to-gray-800 space-y-4 md:space-y-0 font-sans text-sm font-bold mt-4 md:mt-0">
+        <div className="flex items-center space-x-4">
+          <Link href="/admin/panel/" className="hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg">
+            <div className="px-4 md:px-6 py-2">Panel</div>
+          </Link>
+          <button onClick={toggleMenu} className="md:hidden">
+            <div className="w-6 h-6 flex flex-col justify-between items-center">
+              <span className="block w-full h-0.5 bg-white"></span>
+              <span className="block w-full h-0.5 bg-white"></span>
+              <span className="block w-full h-0.5 bg-white"></span>
+            </div>
+          </button>
+        </div>
 
-<div className="flex items-center space-x-4">
-<Link href={"/admin/panel/"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      Panel
-    </div>
-  </Link>
+        <div className={`${isMenuOpen ? 'block' : 'hidden'} md:flex flex-col md:flex-row items-start md:items-center w-full md:w-auto space-y-2 md:space-y-0 md:space-x-4`}>
+          <Link href="/admin/blog/blogList/" className="block px-4 py-2 hover:bg-gray-200 md:hover:bg-transparent">Blog</Link>
+          <Link href="/admin/user/userList" className="block px-4 py-2 hover:bg-gray-200 md:hover:bg-transparent">User</Link>
+          <Link href="/admin/category/categoryList" className="block px-4 py-2 hover:bg-gray-200 md:hover:bg-transparent">Category</Link>
+          <Link href="/admin/faq/faqList" className="block px-4 py-2 hover:bg-gray-200 md:hover:bg-transparent">FaQ</Link>
+          <Link href="/admin/testimonial/testimonialList" className="block px-4 py-2 hover:bg-gray-200 md:hover:bg-transparent">Reference</Link>
+        </div>
 
-  <Link href={"/admin/blog/blogList/"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      Blog 
+        <div className="relative ml-auto">
+          {session ? (
+            <div onClick={toggleDropdown} className="flex items-center space-x-2 cursor-pointer">
+              <span>{session.user?.name || session.user?.email}</span>
+              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                {/* Icon for dropdown */}
+              </div>
+            </div>
+          ) : (
+            <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+              {/* Icon for dropdown */}
+            </div>
+          )}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-10">
+              <Link href="/admin/user/login" className="block px-4 py-2">
+                <Login />
+              </Link>
+              <button className="w-full text-left px-4 py-2 hover:bg-gray-200">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </nav>
     </div>
-  </Link>
+  );
+};
 
-  <Link href={"/admin/user/userList"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      User
-    </div>
-  </Link>
-
-  <Link href={"/admin/category/categoryList"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      Category
-    </div>
-  </Link>
-  <Link href={"/admin/faq/faqList"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      FaQ
-    </div>
-  </Link>
-  <Link href={"/admin/testimonial/testimonialList"} className='hover:bg-white hover:opacity-50 hover:p-1 hover:text-black hover:rounded-lg'>
-    <div className='px-4 md:px-6 py-2 hover:bg-white hover:opacity-50 hover:text-black hover:rounded-lg '>
-      Reference
-    </div>
-  </Link>
-</div>
-
-<Link href={"/admin/user/login"} className='ml-auto '>
-  <div className='px-4 md:px-6 py-2 ' >
-    <Login />
-  </div>
-</Link>
-
-</nav>
-    </div>
-  )
-}
-
-export default AdminNavbar2
+export default AdminNavbar2;
