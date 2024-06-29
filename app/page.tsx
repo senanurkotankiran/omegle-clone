@@ -211,10 +211,10 @@ const Home = () => {
                   Omegle is a global platform where users can anonymously communicate with random individuals via video or text chat. This platform offers the opportunity to encounter people from different cultures and establish new friendships. Users can practice languages, enhance their social skills, and engage in exchanges of views from diverse perspectives worldwide. Omegle anonymity allows users to communicate more freely and openly, while the platform prioritizes security and privacy. It safeguards users personal information and provides a mechanism to report inappropriate behavior. In conclusion, Omegle is an ideal communication platform for those looking to have fun and gain a global perspective.
                 </p>
                 <div className="hidden md:block w-1/4 md:w-1/3 p-4 md:p-8">
-                  <Image src="/home2.webp" alt="blog" width={1000} height={100} />
+                  <Image src="/home2.webp" alt="blog" width={602} height={706} />
                 </div>
                 <div className="md:hidden w-full p-4 md:p-8">
-                  <Image src="/home2.webp" alt="blog" width={1000} height={100} />
+                  <Image src="/home2.webp" alt="blog" width={602} height={7026} />
                 </div>
               </div>
             </div>
