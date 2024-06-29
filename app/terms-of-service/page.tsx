@@ -15,7 +15,7 @@ const TermsOfServices = () => {
         <div className="fixed top-0 w-full z-10">
           <Navbar/>
         </div>
-        <div className="mt-32 md:mt-16">
+        <div className="mt-14 md:mt-16">
           <Navbar2/>
         </div>
       </div>
