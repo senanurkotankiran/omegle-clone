@@ -258,12 +258,15 @@ const BlogDetail = () => {
 
   return (
     <>
-      <head>
+          <head>
         <title >{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
         <meta name="description" content={selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more'} />
         <meta name="keywords" content={selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article'} />
         <meta name="robots" content="index, follow" />
-      </head>
+          </head>
+
+    
+     
 
 
       <script
