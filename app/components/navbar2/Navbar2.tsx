@@ -34,7 +34,7 @@ const Navbar2 = () => {
       </div>
     </Link>
       <div className=" md:hidden ">
-        <button onClick={toggleMobileMenu} className="text-white mt-2">
+        <button id='navbar2' title='navbar2' onClick={toggleMobileMenu} className="text-white mt-2">
           {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
         </button>
       </div>
