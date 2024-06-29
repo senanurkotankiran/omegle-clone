@@ -44,6 +44,11 @@ const Home = () => {
 
   
 
+   const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    event.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
 
 
   useEffect(() => {
@@ -123,14 +128,7 @@ const Home = () => {
 
   console.log(faqJsonLd, "mainEntity");
 
-  // İçindekiler yapısını oluşturma
-  const contents = [
-    { id: "agreement", label: "Agreement" },
-    { id: "introduction", label: "Omegle Online Video Chat" },
-    { id: "last4blog", label: "Latest 3 Blog" },
-    { id: "faqs", label: "FAQs" },
-    { id: "testimonials", label: "References" },
-  ];
+
 
   return (
     <>
@@ -191,7 +189,9 @@ const Home = () => {
             <ul className="mt-4 space-y-2">
               {headings.map((content) => (
                 <li key={content.id} className="text-lg">
-                  <a href={`#${content.id}`} className="text-white hover:text-blue-600 transition duration-300">
+                  <a href={`#${content.id}`} 
+                    onClick={(e) => handleAnchorClick(e, content.id)}
+                    className="text-white hover:text-blue-600 transition duration-300">
                     {content.text}
                   </a>
                 </li>
@@ -222,13 +222,15 @@ const Home = () => {
         </section>
 
         <section id="last4blog" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
+          <h1 className="mb-16 flex justify-center text-3xl font-bold text-white">Recent Blogs</h1>
+
           <Last4Blog />
         </section>
         <section id="faqs" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
           <Faqs />
         </section>
         <section id="testimonials" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
-          <p className="mt-16 flex justify-center text-3xl font-bold text-white">References</p>
+          <h1 className="mt-16 flex justify-center text-3xl font-bold text-white">References</h1>
           <TestimonialsCarousel />
         </section>
         <div className="w-full">

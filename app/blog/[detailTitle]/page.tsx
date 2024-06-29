@@ -1,14 +1,13 @@
 "use client"
-
-import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
-import Footer from '@/app/components/footer/page'
-import Navbar from '@/app/components/navbar/Navbar'
-import Navbar2 from '@/app/components/navbar2/Navbar2'
-import Image from 'next/image'
+import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb';
+import Footer from '@/app/components/footer/page';
+import Navbar from '@/app/components/navbar/Navbar';
+import Navbar2 from '@/app/components/navbar2/Navbar2';
+import Image from 'next/image';
 import { format } from 'date-fns';
-import { useParams, useRouter, usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import Head from 'next/head'
+import { useParams, useRouter, usePathname } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 
 const BlogDetail = () => {
   const params = useParams();
@@ -33,17 +32,17 @@ const BlogDetail = () => {
   }
 
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
-  const [faqJsonLd, setFaqJsonLd] = useState<string>("");
   const [openIndex, setOpenIndex] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<IBlogItem[]>([]);
   const [selectedBlog, setSelectedBlog] = useState<IBlogItem | null>(null);
-  const [pageTitle, setPageTitle] = useState('Loading...')
+  const [pageTitle, setPageTitle] = useState('Loading...');
+  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [faqJsonLd, setFaqJsonLd] = useState<string>("");
+
 
   const router = useRouter();
   const pathname = usePathname();
-  const handleClick = () => {
-    router.push('/ftf');
-  }
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -67,21 +66,64 @@ const BlogDetail = () => {
     }
   }, [selectedBlog]);
 
-  const formatTitleForURL = (title: string) => {
-    return encodeURIComponent(
-      title
-        .toLowerCase()
-        .replace(/ /g, '-')
-        .replace(/\./g, '-')
-    );
-  }
-
   useEffect(() => {
     if (selectedBlog) {
-      const formattedTitle = formatTitleForURL(selectedBlog.title);
+      const formattedTitle = encodeURIComponent(
+        selectedBlog.title.toLowerCase().replace(/ /g, '-').replace(/\./g, '-')
+      );
       router.replace(`/blog/${formattedTitle}`);
     }
   }, [selectedBlog, router]);
+
+  useEffect(() => {
+    if (selectedBlog) {
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = selectedBlog.content;
+
+      const headingsFromContent = Array.from(tempDiv.querySelectorAll('h1, h2, h3'));
+      headingsFromContent.forEach((heading, index) => {
+        const id = `content-heading-${index}`;
+        heading.id = id;
+      });
+
+      const quillContent = document.querySelector('.quill-content');
+      if (quillContent) {
+        quillContent.innerHTML = tempDiv.innerHTML;
+      }
+
+      const allHeadings = Array.from(document.querySelectorAll('h1, h2, h3'));
+      allHeadings.forEach((heading, index) => {
+        if (!heading.id) {
+          heading.id = `heading-${index}`;
+        }
+      });
+
+      const updatedHeadings = allHeadings.map((heading) => ({
+        id: heading.id,
+        text: heading.textContent || '',
+      }));
+
+      setHeadings(updatedHeadings);
+    }
+  }, [selectedBlog]);
+
+  const toggleFaq = (id: string) => {
+    setOpenIndex(openIndex === id ? null : id);
+  };
+
+  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    event.preventDefault();
+    const target = document.getElementById(id);
+    if (target) {
+      window.scrollTo({
+        top: target.getBoundingClientRect().top + window.scrollY - 100, // Uygun bir ofset değeri kullanın
+        behavior: 'smooth'
+      });
+    } else {
+      console.error(`Element with id ${id} not found.`);
+    }
+  };
+
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -110,21 +152,11 @@ const BlogDetail = () => {
     }
   }, [selectedBlog]);
 
-  const toggleFaq = (id: string) => {
-    setOpenIndex(openIndex === id ? null : id);
-  };
 
-  const generateMetadata = () => {
-    return {
-      title: selectedBlog ? selectedBlog.title : 'Blog Detail',
-      description: selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more',
-      keywords: selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article',
-    };
-  };
 
-  const metadata = generateMetadata();
 
-  const jsonLdWebSite = {
+
+ const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Omegle",
@@ -162,7 +194,7 @@ const BlogDetail = () => {
     "potentialAction": [
       {
         "@type": "ReadAction",
-        "target": [`https://omegle-mu.vercel.app${pathname}`]
+        "target": `[https://omegle-mu.vercel.app${pathname}]`
       }
     ]
   };
@@ -187,7 +219,7 @@ const BlogDetail = () => {
         "@type": "ListItem",
         "position": 3,
         "name": selectedBlog.title,
-        "item": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+        "item": `https://omegle-mu.vercel.app/blog/${encodeURIComponent(selectedBlog.title.toLowerCase().replace(/ /g, '-').replace(/\./g, '-'))}`
       }
     ]
   } : null;
@@ -195,9 +227,9 @@ const BlogDetail = () => {
   const jsonLdArticle = selectedBlog ? {
     "@context": "https://schema.org",
     "@type": "Article",
-    "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}#article`,
+    "@id": `https://omegle-mu.vercel.app/blog/${encodeURIComponent(selectedBlog.title.toLowerCase().replace(/ /g, '-').replace(/\./g, '-'))}#article`,
     "isPartOf": {
-      "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+      "@id": `https://omegle-mu.vercel.app/blog/${encodeURIComponent(selectedBlog.title.toLowerCase().replace(/ /g, '-').replace(/\./g, '-'))}`
     },
     "author": {
       "name": selectedBlog.author,
@@ -207,7 +239,7 @@ const BlogDetail = () => {
     "datePublished": selectedBlog.createdAt,
     "dateModified": selectedBlog.createdAt,
     "mainEntityOfPage": {
-      "@id": `https://omegle-mu.vercel.app/blog/${formatTitleForURL(selectedBlog.title)}`
+      "@id": `https://omegle-mu.vercel.app/blog/${encodeURIComponent(selectedBlog.title.toLowerCase().replace(/ /g, '-').replace(/\./g, '-'))}`
     },
     "wordCount": selectedBlog.content.split(' ').length,
     "publisher": {
@@ -218,38 +250,51 @@ const BlogDetail = () => {
     "inLanguage": "en-US"
   } : null;
 
+
+
+
+
+
+
   return (
     <>
       <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <meta name="keywords" content={metadata.keywords} />
+        <title >{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
+        <meta name="description" content={selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more'} />
+        <meta name="keywords" content={selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article'} />
         <meta name="robots" content="index, follow" />
       </head>
+
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+      />
+      {jsonLdBreadcrumb && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
+      )}
+      {jsonLdArticle && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
-        />
-        {jsonLdBreadcrumb && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-          />
-        )}
-        {jsonLdArticle && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
-          />
-        )}
+      )}
+
+
+
+
+
       <div className="min-h-screen">
         <div className="pt-4">
           <div className="fixed top-0 w-full z-10">
@@ -259,24 +304,48 @@ const BlogDetail = () => {
             <Navbar2 />
           </div>
         </div>
-        <div className='ml-8 mt-4'>
+        <div className="ml-8 mt-4">
           <Breadcrumb title={selectedBlog?.title} category={selectedBlog?.categoryId.name} />
         </div>
-        <main className="max-w-4xl mx-auto mb-4 mt-4">
+
+        <div className="max-w-4xl mx-auto mb-4 mt-4">
+          <div className="w-full opacity-85 max-w-screen-md mb-16 p-4 bg-gradient-to-r from-rose-300 via-pink-600 to-indigo-500 rounded-lg shadow-lg text-white">
+            <div className="flex justify-left items-center space-x-4 space-y-4">
+              <p className="text-2xl font-bold">Contents</p>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-white focus:outline-none hover:text-blue-600 "
+              >
+                {isOpen ? "[ close ]" : "[ open ]"}
+              </button>
+            </div>
+            {isOpen && (
+              <ul className="mt-4 space-y-2">
+                {headings.map((content) => (
+                  <li key={content.id} className="text-lg">
+                    <a href={`#${content.id}`} 
+                      onClick={(e) => handleAnchorClick(e, content.id)}
+                      className="text-white hover:text-blue-600 transition duration-300 capitalize">
+                      {content.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
           <div className="text-left">
             <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center">
               {selectedBlog?.image && (
                 <Image src={selectedBlog.image} alt={selectedBlog.title} width={500} height={500} className="mb-4" />
               )}
               <h2 className="text-xl font-bold text-gray-800 mb-4 capitalize">{selectedBlog?.title}</h2>
-              <span className='text-xs pb-8'>{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
-              <div className="text-gray-600 text-justify quill-content" dangerouslySetInnerHTML={{ __html: selectedBlog?.content || '' }}></div>
-
-
-              <span className=' w-full items-right text-xs p-8 pb-4 text-gray-700 text-right'>
+              <span className="text-xs pb-8">{selectedBlog?.categoryId.name} {'>'} {selectedBlog?.title}</span>
+              <div className="text-gray-600 text-justify quill-content"></div>
+              <span className="w-full items-right text-xs p-8 pb-4 text-gray-700 text-right">
                 {selectedBlog?.createdAt && format(new Date(selectedBlog.createdAt), 'MMMM dd, yyyy')}
               </span>
-              <span className=' w-full items-right text-xs pr-8 text-gray-700 text-right capitalize '>
+              <span className="w-full items-right text-xs pr-8 text-gray-700 text-right capitalize">
                 {selectedBlog?.author}
               </span>
             </div>
@@ -319,22 +388,23 @@ const BlogDetail = () => {
               </div>
             </div>
           </div>
-        </main>
+        </div>
+
         <div className="w-full">
           <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-8">
             <h2 className="text-xl md:text-2xl font-extrabold mb-4 text-center">Connect Globally, Talk to Strangers Right Now!</h2>
             <div className="p-2 flex items-center justify-center">
-              <button onClick={handleClick} className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-full md:w-72 rounded-full">
+              <button onClick={() => router.push('/ftf')} className="animate-bounce transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 flex items-center justify-center border-none bg-gradient-to-r from-indigo-500 via-blue-600 to-pink-500 text-l text-white h-14 md:h-16 w-full md:w-72 rounded-full">
                 Start Chat
               </button>
             </div>
-            <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New FriendsMake New FriendsMake New Friends</p>
+            <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New Friends Make New Friends Make New Friends</p>
           </div>
         </div>
         <Footer />
       </div>
     </>
   );
-}
+};
 
 export default BlogDetail;
