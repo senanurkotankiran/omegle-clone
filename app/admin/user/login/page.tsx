@@ -27,7 +27,7 @@ const Login = () => {
     } else {
       //const nextUrl = searcParams?.get("next")
       //router.push( nextUrl ? nextUrl : '/admin/panel');
-      router.push('admin/panel')
+      router.push('/admin/panel')
 
     }
 
