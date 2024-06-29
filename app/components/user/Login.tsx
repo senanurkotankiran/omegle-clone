@@ -1,12 +1,15 @@
 "use client"
 import { signOut, useSession } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import React from 'react'
 
 const Login = () => {
         const { data: session } = useSession()
+        const searcParams  =useSearchParams()
 
         const handleLogout = async () => {
-                await signOut({ redirect: false, callbackUrl: '/admin/user/login' }) // Oturumu kapatma işlemi
+                const nextUrl = searcParams?.get("next")
+                await signOut({ redirect: true, callbackUrl: nextUrl ? nextUrl : '/admin/user/login' }) // Oturumu kapatma işlemi
         }
 
         return (

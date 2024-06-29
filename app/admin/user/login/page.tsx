@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import AdminNavbar from '@/app/admin/components/navbar/AdminNavbar'
 
@@ -10,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
+  const searcParams = useSearchParams()
 
 
 
@@ -25,7 +26,8 @@ const Login = () => {
     if (res?.error) {
       setError(res.error)
     } else {
-      router.push( '/admin/panel');
+      const nextUrl = searcParams?.get("next")
+      router.push( nextUrl ? nextUrl : '/admin/panel');
 
     }
 
