@@ -214,7 +214,7 @@ const Home = () => {
                   <Image src="/home2.webp" alt="blog" width={602} height={706} />
                 </div>
                 <div className="md:hidden w-full p-4 md:p-8">
-                  <Image src="/home2.webp" alt="blog" width={602} height={726} />
+                  <Image src="/home2.webp" alt="blog" width={602} height={706} />
                 </div>
               </div>
             </div>
