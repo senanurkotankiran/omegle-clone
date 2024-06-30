@@ -46,9 +46,11 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     }
   }, [blog]);
 
-  useEffect(() => {
+    useEffect(() => {
     if (blog) {
-      const tempDiv = document.createElement('div');
+      if (typeof window !== 'undefined') {
+        // Tarayıcıya özgü kod
+        const tempDiv = document.createElement('div');
       tempDiv.innerHTML = blog.content;
 
       const headingsFromContent = Array.from(tempDiv.querySelectorAll('h1, h2, h3'));
@@ -76,13 +78,19 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
 
       setHeadings(updatedHeadings);
     }
-  }, [blog]);
+      }
+      
+  }, [blog]); 
 
+
+
+  
+ 
   const toggleFaq = (id: string) => {
     setOpenIndex(openIndex === id ? null : id);
   };
 
-  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+ /*  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     const target = document.getElementById(id);
     if (target) {
@@ -94,7 +102,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
       console.error(`Element with id ${id} not found.`);
     }
   };
-
+ */
   // Başlıkları URL dostu hale getirir, küçük harf ve kısa çizgi kullanır
   const slugify = (title: string) =>
     title
@@ -291,7 +299,6 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
                 {headings.map((content) => (
                   <li key={content.id} className="text-lg">
                     <a href={`#${content.id}`}
-                      onClick={(e) => handleAnchorClick(e, content.id)}
                       className="text-white hover:text-blue-600 transition duration-300 capitalize">
                       {content.text}
                     </a>
