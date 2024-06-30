@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.png', // /public path
   },
+  
 
 
 };
@@ -41,7 +42,7 @@ const About = () => {
     "@type": "Organization",
     "name": "Omegle",
     "url": "https://omegle-mu.vercel.app/about",
-    "logo": "https://omegle-mu.vercel.app/static/logo.png",
+    "logo": "https://omegle-mu.vercel.app/static/favicon.png",
     "sameAs": [
       "https://www.facebook.com/Omegle",
       "https://twitter.com/Omegle",
@@ -76,25 +77,33 @@ const About = () => {
     ]
   };
 
- 
+  const canonicalUrl = 'https://omegle-mu.vercel.app/about';
+
   return (
     
 <>
 
+<head>
+<link rel="canonical" href={canonicalUrl} />
+</head>
 
  <script
+          id='jsonLdWebSiteId'
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
         <script
+          id='jsonLdOrganizationId'
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
         />
         <script
+          id='jsonLdWebPageId'
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
         />
         <script
+          id='jsonLdBreadcrumbId'
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />

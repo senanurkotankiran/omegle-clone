@@ -6,7 +6,7 @@ import AuthProvider from "./Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Omegle.com - Omegle: Talk to strangers!",
+  title: "Omegle - Omegle: Talk to strangers!",
   description: "Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other.",
   keywords: "Omegle, chat, meet new people, secure chat, online friends",
   robots: "index, follow",

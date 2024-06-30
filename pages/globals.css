@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+body {
+    @apply bg-gradient-to-r from-rose-300 via-pink-600 to-indigo-500 ;
+  }
+
+/* styles/globals.css veya projenizdeki global CSS dosyanızda */
+.quill-content ul,
+.quill-content ol {
+  margin: 1em 0;
+  padding-left: 1em;
+}
+
+.quill-content ul {
+  list-style-type: disc;
+}
+
+.quill-content ol {
+  list-style-type: decimal;
+}
+
+.quill-content li {
+  margin-bottom: 0.5em;
+}

@@ -14,8 +14,7 @@ import { useRouter } from "next/navigation";
 interface IFaqItem {
   question: string;
   answer: string;
-  blogId?: string; // blogId alanı isteğe bağlı
-
+  blogId?: string;
 }
 
 const Home = () => {
@@ -23,16 +22,12 @@ const Home = () => {
   const handleClick = () => {
     router.push('/ftf');
   };
-  
-  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([])
+
+  const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [faqs, setFaqs] = useState<IFaqItem[]>([]);
-  const [faqJsonLd, setFaqJsonLd] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-
-
   useEffect(() => {
-    // Başlıkları toplamak ve id eklemek
     const headingElements = Array.from(document.querySelectorAll('h1, h2, h3'));
     const headingTexts = headingElements.map((heading, index) => {
       const id = `heading-${index}`;
@@ -40,46 +35,37 @@ const Home = () => {
       return { id, text: heading.textContent || '' };
     });
     setHeadings(headingTexts);
-   },[]);
+  }, []);
 
-  
-
-   const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
-
-
 
   useEffect(() => {
     const fetchFaqs = async () => {
       const res = await fetch('/api/faqs');
       const data = await res.json();
-      // blogId alanı olmayan SSS öğelerini filtrele
       const filteredFaqs = data.filter((faq: IFaqItem) => !faq.blogId);
       setFaqs(filteredFaqs);
-      const generatedFaqJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": filteredFaqs.map((faq: IFaqItem) => ({
-          "@type": "Question",
-          "name": faq.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.answer,
-          },
-        })),
-      };
-
-      setFaqJsonLd(JSON.stringify(generatedFaqJsonLd));
-    
     };
 
     fetchFaqs();
   }, []);
 
-
-
+  const faqJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq: IFaqItem) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer,
+      },
+    })),
+  }) ;
+console.log(faqJsonLd)
   const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -88,8 +74,8 @@ const Home = () => {
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://omegle-mu.vercel.app/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+      "query-input": "required name=search_term_string",
+    },
   };
 
   const jsonLdOrganization = {
@@ -101,8 +87,8 @@ const Home = () => {
     "sameAs": [
       "https://www.facebook.com/Omegle",
       "https://twitter.com/Omegle",
-      "https://www.instagram.com/Omegle"
-    ]
+      "https://www.instagram.com/Omegle",
+    ],
   };
 
   const jsonLdWebPage = {
@@ -110,7 +96,7 @@ const Home = () => {
     "@type": "WebPage",
     "name": "Omegle: Talk to Strangers",
     "description": "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
-    "url": "https://omegle-mu.vercel.app"
+    "url": "https://omegle-mu.vercel.app",
   };
 
   const jsonLdBreadcrumb = {
@@ -121,42 +107,42 @@ const Home = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://omegle-mu.vercel.app"
-      }
-    ]
+        "item": "https://omegle-mu.vercel.app",
+      },
+    ],
   };
-
-  console.log(faqJsonLd, "mainEntity");
-
-
 
   return (
     <>
-
-  
       <script
+        id="jsonLdWebSiteId"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
       />
       <script
+        id="jsonLdOrganizationId"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
       />
       <script
+        id="jsonLdWebPageId"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: faqJsonLd }}
-      />
-
-
-      
+      {jsonLdBreadcrumb && (
+        <script
+          id="jsonLdBreadcrumbId"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+        />
+      )}
+      {faqJsonLd && (
+        <script
+          id="jsonLdFaqsId"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: faqJsonLd }}
+        />
+      )}
 
       <div className="pt-4">
         <div className="fixed top-0 z-10">
@@ -170,11 +156,9 @@ const Home = () => {
         <Breadcrumb />
       </div>
       <div className="flex flex-col items-center justify-center">
-
         <section id="agreement" className="pt-20">
           <Agreement />
         </section>
-
         <div className="w-full opacity-85 max-w-screen-md mb-16 p-4 bg-gradient-to-r from-rose-300 via-pink-600 to-indigo-500 rounded-lg shadow-lg text-white">
           <div className="flex justify-left items-center space-x-4 space-y-4">
             <p className="text-2xl font-bold">Contents</p>
@@ -223,7 +207,6 @@ const Home = () => {
 
         <section id="last4blog" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
           <h1 className="mb-16 flex justify-center text-3xl font-bold text-white">Recent Blogs</h1>
-
           <Last4Blog />
         </section>
         <section id="faqs" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
@@ -251,6 +234,6 @@ const Home = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default Home;

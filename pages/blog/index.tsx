@@ -1,18 +1,20 @@
 "use client"
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
-import Breadcrumb from '../components/breadcrumb/Breadcrumb'
-import { useRouter } from 'next/navigation'
-import Navbar from '../components/navbar/Navbar'
-import Footer from '../components/footer/page'
-import Navbar2 from '../components/navbar2/Navbar2'
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { htmlToText } from 'html-to-text';
-import Head from 'next/head'
-import { Metadata } from 'next'
+import Head from 'next/head';
+import Navbar from '@/app/components/navbar/Navbar';
+import Navbar2 from '@/app/components/navbar2/Navbar2';
+import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb';
+import Footer from '@/app/components/footer/page';
 
-
-
-
+// URL'leri düzgün hale getiren fonksiyon
+const slugify = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]+/g, '');
 
 const Blog = () => {
 
@@ -118,32 +120,67 @@ const Blog = () => {
     setSelectedCategory(category);
   };
 
+  const handleBlogClick = (title: string) => {
+    const slug = slugify(title);
+    router.push(`/blog/${slug}`);
+  };
+
+  const canonicalUrl = 'https://omegle-mu.vercel.app/blog';
+
   return (
     <>
-      <head>
-        <title>Blog - Omegle : Talk the strangers!</title>
+      <Head>
+        <title>Blog - Omegle : Talk to Strangers!</title>
         <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
         <meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
         <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={canonicalUrl} />
 
-      </head>
+        <script
+          id='jsonLdWebSiteId'
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+        <script
+          id='jsonLdOrganizationId'
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+        <script
+          id='jsonLdWebPageId'
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+        />
+        {jsonLdBreadcrumb && (
+          <script
+            id='jsonLdBreadcrumbId'
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+          />
+        )}
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
-      />
+        {/* Blog sayfası için SEO bilgileri */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Blog",
+              "blogPost": blogs.map((blog) => ({
+                "@type": "BlogPosting",
+                "headline": blog.title,
+                "image": blog.image,
+                "author": {
+                  "@type": "Person",
+                  "name": blog.author,
+                },
+                "datePublished": new Date(blog.createdAt).toISOString(),
+                "description": truncateContent(blog.content, 160),
+              })),
+            }),
+          }}
+        />
+      </Head>
 
       <div className="min-h-screen">
         <div className="pt-4">
@@ -189,7 +226,7 @@ const Blog = () => {
                 return (
                   <div
                     key={item._id}
-                    onClick={() => router.push(`/blog/${item.title}`)}
+                    onClick={() => handleBlogClick(item.title)}
                     className="bg-white rounded-lg shadow-lg p-6 transition ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-gray-200 duration-300 cursor-pointer"
                   >
                     <Image
@@ -200,11 +237,11 @@ const Blog = () => {
                       className="mb-4 rounded border mx-auto"
                     />
                     <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center capitalize">{item.title}</h2>
-                    <p className="text-gray-600 text-justify" >
+                    <p className="text-gray-600 text-justify">
                       {truncateContent(item.content, 50)}
                     </p>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -212,7 +249,7 @@ const Blog = () => {
         <Footer />
       </div>
     </>
-  )
+  );
 }
 
 export default Blog;
