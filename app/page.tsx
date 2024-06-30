@@ -65,7 +65,9 @@ const Home = () => {
       },
     })),
   }) ;
+  
 console.log(faqJsonLd)
+
   const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
