@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb';
 import Footer from '@/app/components/footer/page';
 import Navbar from '@/app/components/navbar/Navbar';
@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useParams, useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Script from 'next/script';
 
 const BlogDetail = () => {
   const params = useParams();
@@ -39,7 +40,6 @@ const BlogDetail = () => {
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [faqJsonLd, setFaqJsonLd] = useState<string>("");
-
 
   const router = useRouter();
   const pathname = usePathname();
@@ -116,14 +116,13 @@ const BlogDetail = () => {
     const target = document.getElementById(id);
     if (target) {
       window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - 100, // Uygun bir ofset değeri kullanın
+        top: target.getBoundingClientRect().top + window.scrollY - 100,
         behavior: 'smooth'
       });
     } else {
       console.error(`Element with id ${id} not found.`);
     }
   };
-
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -152,11 +151,7 @@ const BlogDetail = () => {
     }
   }, [selectedBlog]);
 
-
-
-
-
- const jsonLdWebSite = {
+  const jsonLdWebSite = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Omegle",
@@ -250,53 +245,44 @@ const BlogDetail = () => {
     "inLanguage": "en-US"
   } : null;
 
-
-
-
-
-
-
   return (
     <>
-          <head>
-        <title >{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
+      <head>
+        <title>{selectedBlog ? selectedBlog.title : 'Blog Detail'}</title>
         <meta name="description" content={selectedBlog ? selectedBlog.content.substring(0, 160) : 'Blog details and more'} />
         <meta name="keywords" content={selectedBlog ? selectedBlog.title.split(' ').join(', ') : 'blog, detail, article'} />
         <meta name="robots" content="index, follow" />
-          </head>
+      </head>
 
-    
-     
-
-
-      <script
+      <Script
+        id="json-ld-website"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
       />
-      <script
+      <Script
+        id="json-ld-organization"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
       />
-      <script
+      <Script
+        id="json-ld-webpage"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
       />
       {jsonLdBreadcrumb && (
-        <script
+        <Script
+          id="json-ld-breadcrumb"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
       )}
       {jsonLdArticle && (
-        <script
+        <Script
+          id="json-ld-article"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
         />
       )}
-
-
-
-
 
       <div className="min-h-screen">
         <div className="pt-4">
