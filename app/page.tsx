@@ -29,21 +29,21 @@ const Home = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-        const headingElements = Array.from(document.querySelectorAll('h1, h2, h3'));
-    const headingTexts = headingElements.map((heading, index) => {
-      const id = `heading-${index}`;
-      heading.id = id;
-      return { id, text: heading.textContent || '' };
-    });
-    setHeadings(headingTexts);// Tarayıcıya özgü kod
+      const headingElements = Array.from(document.querySelectorAll('h1, h2, h3'));
+      const headingTexts = headingElements.map((heading, index) => {
+        const id = `heading-${index}`;
+        heading.id = id;
+        return { id, text: heading.textContent || '' };
+      });
+      setHeadings(headingTexts);// Tarayıcıya özgü kod
     }
-  
+
   }, []);
 
- /*  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  }; */
+  };
 
   useEffect(() => {
     const fetchFaqs = async () => {
@@ -67,9 +67,9 @@ const Home = () => {
         "text": faq.answer,
       },
     })),
-  }) ;
-  
-console.log(faqJsonLd)
+  });
+
+  console.log(faqJsonLd)
 
   const jsonLdWebSite = {
     "@context": "https://schema.org",
@@ -178,7 +178,9 @@ console.log(faqJsonLd)
             <ul className="mt-4 space-y-2">
               {headings.map((content) => (
                 <li key={content.id} className="text-lg">
-                  <a href={`#${content.id}`} 
+                  <a href={`#${content.id}`}
+                    onClick={(e) => handleAnchorClick(e, content.id)}
+
                     className="text-white hover:text-blue-600 transition duration-300">
                     {content.text}
                   </a>
