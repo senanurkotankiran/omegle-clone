@@ -1,16 +1,22 @@
 import connectToDatabase from '@/lib/mongoose';
 import Blog from '@/models/Blog';
-import Category from '@/models/Category';  // Assuming you have a Category model
+import Category from '@/models/Category'; // Assuming you have a Category model
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await connectToDatabase();
 
   if (req.method === 'POST') {
-    const { title, content, author, image, categoryId } = req.body;
+    const { title, description, content, author, image, categoryId } = req.body;
 
     try {
-      const blog = await Blog.create({ title, content, author, image, categoryId });
+      // Check for duplicate title
+      const existingBlog = await Blog.findOne({ title });
+      if (existingBlog) {
+        return res.status(409).json({ error: 'Bu başlıkta bir blog zaten mevcut' });
+      }
+
+      const blog = await Blog.create({ title, description, content, author, image, categoryId });
       res.status(201).json(blog);
     } catch (error) {
       res.status(500).json({ error: 'Blog oluşturulamadı' });

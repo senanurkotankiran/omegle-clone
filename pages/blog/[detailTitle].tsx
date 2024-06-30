@@ -13,6 +13,7 @@ import { htmlToText } from 'html-to-text';
 interface IBlogItem {
   _id: string;
   title: string;
+  description:string,
   content: string;
   author: string;
   image: string;
@@ -221,7 +222,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     ? `https://omegle-mu.vercel.app/blog/${slugify(blog.title)}`
     : 'https://omegle-mu.vercel.app/blog';
 
-  const descriptionTag = blog ? htmlToText(blog.content.substring(0, 160), { wordwrap: false }) : 'Blog details and more';
+    const descriptionTag = blog ? htmlToText(blog.description, { wordwrap: false }) : 'Blog details and more';
 
   return (
     <>

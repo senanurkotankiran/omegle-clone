@@ -28,12 +28,96 @@ const PrivacyPolicy = () => {
         fetchPrivacyPolicies();
     }, []);
 
+
+
+
+    const jsonLdWebSite = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Omegle",
+        "url": "https://omegle-mu.vercel.app/privacy-policy",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://omegle-mu.vercel.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string",
+        },
+    };
+
+    const jsonLdOrganization = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Omegle",
+        "url": "https://omegle-mu.vercel.app/privacy-policy",
+        "logo": "https://omegle-mu.vercel.app/static/logo.png",
+        "sameAs": [
+            "https://www.facebook.com/Omegle",
+            "https://twitter.com/Omegle",
+            "https://www.instagram.com/Omegle",
+        ],
+    };
+
+    const jsonLdWebPage = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Omegle: Talk to Strangers",
+        "description": "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
+        "url": "https://omegle-mu.vercel.app/privacy-policy",
+    };
+
+    const jsonLdBreadcrumb = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://omegle-mu.vercel.app",
+            }, {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Privacy Policy",
+                "item": "https://omegle-mu.vercel.app/privacy-policy",
+            },
+        ],
+    };
+
+
+    const canonicalUrl = 'https://omegle-mu.vercel.app/privacy-policy';
+
+
     return (
         <div>
             <head>
                 <title>Privacy Policy - Omegle</title>
-                <meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
+                <meta name="description" content="This Privacy Policy describes how [www-omegle] collects, uses, and shares your personal information when you visit our website [https://www-omegle.com]." />
+                <link rel="canonical" href={canonicalUrl} />
+
+
+                <script
+                    id="jsonLdWebSiteId"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+                />
+                <script
+                    id="jsonLdOrganizationId"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+                />
+                <script
+                    id="jsonLdWebPageId"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+                />
+                {jsonLdBreadcrumb && (
+                    <script
+                        id="jsonLdBreadcrumbId"
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+                    />
+                )}
             </head>
+
             <div className="pt-4">
                 <div className="fixed top-0 w-full z-10">
                     <Navbar />

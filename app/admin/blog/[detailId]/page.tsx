@@ -17,6 +17,7 @@ const BlogDetail = () => {
   interface IBlogItem {
     _id: string;
     title: string;
+    description: string;
     content: string;
     author: string;
     image: string;
@@ -32,7 +33,7 @@ const BlogDetail = () => {
   const [categories, setCategories] = useState<ICategoryItem[]>([]);
   const [selectedBlog, setSelectedBlog] = useState<IBlogItem | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ title: '', content: '', image: '', categoryId: '' });
+  const [formData, setFormData] = useState({ title: '', description: '', content: '', image: '', categoryId: '' });
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -66,6 +67,7 @@ const BlogDetail = () => {
       if (blog) {
         setFormData({
           title: blog.title,
+          description: blog.description,
           content: blog.content,
           image: blog.image,
           categoryId: blog.categoryId,
@@ -150,6 +152,19 @@ const BlogDetail = () => {
                     className="w-full px-3 py-2 border rounded-lg"
                   />
                 </div>
+                <div>
+                  <label htmlFor="description" className="block text-sm font-medium">
+                    Açıklama
+                  </label>
+                  <input
+                    type="text"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    className="mt-1 p-3 block w-full border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                    required
+                  />
+                </div>
                 <div className="mb-4">
                   <label htmlFor="content" className="block text-gray-700 font-bold mb-2">İçerik</label>
                   <ReactQuill
@@ -160,7 +175,7 @@ const BlogDetail = () => {
                     modules={{
                       toolbar: [
                         [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                         ['bold', 'italic', 'underline'],
                         ['link', 'image'],
                         [{ 'align': [] }],
