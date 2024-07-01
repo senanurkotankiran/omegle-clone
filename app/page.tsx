@@ -117,8 +117,14 @@ const Home = () => {
     ],
   };
 
+  const canonicalUrl = 'https://omegle-mu.vercel.app/about';
+
+
   return (
     <>
+    <head>
+<link rel="canonical" href={canonicalUrl} />
+</head>
       <script
         id="jsonLdWebSiteId"
         type="application/ld+json"
