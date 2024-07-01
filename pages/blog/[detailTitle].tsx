@@ -37,6 +37,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
   const [pageTitle, setPageTitle] = useState('Loading...');
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [formattedDate, setFormattedDate] = useState<string>('');
 
   const router = useRouter();
 
@@ -49,7 +50,6 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
   useEffect(() => {
     if (blog) {
       if (typeof window !== 'undefined') {
-        // Tarayıcıya özgü kod
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = blog.content;
 
@@ -81,6 +81,16 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     }
   }, [blog]);
 
+  useEffect(() => {
+    if (blog) {
+      const formatDate = (date: Date) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString('en-US', options);
+      };
+      setFormattedDate(formatDate(blog.createdAt));
+    }
+  }, [blog]);
+
   const toggleFaq = (id: string) => {
     setOpenIndex(openIndex === id ? null : id);
   };
@@ -98,7 +108,6 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     }
   };
 
-  // Başlıkları URL dostu hale getirir, küçük harf ve kısa çizgi kullanır
   const slugify = (title: string) =>
     title
       .toLowerCase()
@@ -218,12 +227,6 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
 
   const descriptionTag = blog ? htmlToText(blog.description, { wordwrap: false }) : 'Blog details and more';
 
-  // Tarih biçimlendirme fonksiyonu
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString('en-US', options);
-  };
-
   return (
     <>
       <Head>
@@ -319,7 +322,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
               <span className="text-xs pb-8">{blog?.categoryId.name} {'>'} {blog?.title}</span>
               <div className="text-gray-600 text-justify quill-content"></div>
               <span className="w-full items-right text-xs p-8 pb-4 text-gray-700 text-right">
-                {blog?.createdAt && formatDate(blog.createdAt)}
+                {formattedDate}
               </span>
               <span className="w-full items-right text-xs pr-8 text-gray-700 text-right capitalize">
                 {blog?.author}
