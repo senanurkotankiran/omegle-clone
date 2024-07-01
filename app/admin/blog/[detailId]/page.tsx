@@ -137,7 +137,7 @@ const BlogDetail = () => {
         <div className="text-left">
           <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center">
             {selectedBlog?.image && (
-              <Image src={selectedBlog.image} alt={selectedBlog.title} width={500} height={500} className="mb-4" />
+              <Image src={selectedBlog.image} alt={selectedBlog.title} width={500} height={500}  className="mb-4" />
             )}
             {isEditing ? (
               <form onSubmit={handleSubmit} className="w-full">

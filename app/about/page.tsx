@@ -83,9 +83,9 @@ const About = () => {
     
 <>
 
-<head>
+<Head>
 <link rel="canonical" href={canonicalUrl} />
-</head>
+</Head>
 
  <script
           id='jsonLdWebSiteId'
