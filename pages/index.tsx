@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Navbar from "@/app/components/navbar/Navbar";
-import Navbar2 from "@/app/components/navbar2/Navbar2";
-import Breadcrumb from "@/app/components/breadcrumb/Breadcrumb";
-import Agreement from "@/app/components/home/Agreement";
-import Last3Blog from "@/app/components/home/Last4Blog";
-import Faqs from "@/app/components/home/Faqs";
-import TestimonialsCarousel from "@/app/components/home/TestimonialCarousel";
-import Footer from "@/app/components/footer/page";
+import Breadcrumb from "./components/breadcrumb/Breadcrumb";
+import Agreement from "./components/home/Agreement";
+import Last3Blog from "./components/home/Last3Blog";
+import Faqs from "./components/home/Faqs";
+import TestimonialsCarousel from "./components/home/TestimonialCarousel";
 
 interface IFaqItem {
   question: string;
@@ -142,14 +139,7 @@ const Home: React.FC<HomeProps> = ({ faqs }) => {
         )}
       </Head>
 
-      <div className="pt-4">
-        <div className="fixed top-0 z-10">
-          <Navbar />
-        </div>
-        <div className="mt-14 md:mt-16">
-          <Navbar2 />
-        </div>
-      </div>
+   
       <div className="ml-8 mt-4">
         <Breadcrumb />
       </div>
@@ -228,7 +218,6 @@ const Home: React.FC<HomeProps> = ({ faqs }) => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

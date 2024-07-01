@@ -1,8 +1,6 @@
 import React from 'react'
 import AdminNavbar from '../components/navbar/AdminNavbar'
 import AdminNavbar2 from '../components/navbar2/AdminNavbar2'
-import Image from 'next/image'
-import Last3Blog from '@/app/components/home/Last4Blog'
 import Link from 'next/link'
 
 const Panel = () => {

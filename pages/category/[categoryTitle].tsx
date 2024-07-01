@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { htmlToText } from 'html-to-text'
 import Head from 'next/head'
-import Navbar from '@/app/components/navbar/Navbar'
-import Navbar2 from '@/app/components/navbar2/Navbar2'
-import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
-import Footer from '@/app/components/footer/page'
+import Breadcrumb from '../components/breadcrumb/Breadcrumb'
 
 const Category = () => {
   const params = useParams();
@@ -136,15 +133,7 @@ const Category = () => {
       />
 
       <div className="min-h-screen">
-        <div className="pt-4">
-          <div className="fixed top-0 w-full z-10">
-            <Navbar />
-          </div>
-          <div className="mt-14 md:mt-16">
-            <Navbar2 />
-          </div>
-        </div>
-
+        
         <div className='ml-8 mt-4'>
           <Breadcrumb category={decodedTitle.toLowerCase()} />
         </div>
@@ -190,7 +179,6 @@ const Category = () => {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     </>
   )

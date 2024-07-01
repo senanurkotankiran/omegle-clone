@@ -1,13 +1,10 @@
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb';
-import Footer from '@/app/components/footer/page';
-import Navbar from '@/app/components/navbar/Navbar';
-import Navbar2 from '@/app/components/navbar2/Navbar2';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { htmlToText } from 'html-to-text';
+import Breadcrumb from '../components/breadcrumb/Breadcrumb';
 
 interface IBlogItem {
   _id: string;
@@ -275,14 +272,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
       </Head>
 
       <div className="min-h-screen">
-        <div className="pt-4">
-          <div className="fixed top-0 w-full z-10">
-            <Navbar />
-          </div>
-          <div className="mt-14 md:mt-16">
-            <Navbar2 />
-          </div>
-        </div>
+       
         <div className="ml-8 mt-4">
           <Breadcrumb title={blog?.title} category={blog?.categoryId.name} />
         </div>
@@ -384,7 +374,6 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
             <p className="text-gray-800 text-center">Make New Friends Make New Friends Make New Friends Make New Friends Make New Friends</p>
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );

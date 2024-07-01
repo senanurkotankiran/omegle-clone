@@ -1,13 +1,9 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Metadata } from 'next'
 import Head from 'next/head'
-import Navbar from '@/app/components/navbar/Navbar'
-import Navbar2 from '@/app/components/navbar2/Navbar2'
-import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
-import ContactUs from '@/app/components/about/ContactUs'
-import Footer from '@/app/components/footer/page'
+import Breadcrumb from '../components/breadcrumb/Breadcrumb'
+import ContactUs from '../components/about/ContactUs'
 
 
 /* 
@@ -116,14 +112,7 @@ const About = () => {
 <div className="min-h-screen">
            
          
-        <div className="pt-4">
-        <div className="fixed top-0 w-full z-10">
-          <Navbar />
-        </div>
-        <div className="mt-14 md:mt-16">
-          <Navbar2 />
-        </div>
-      </div>
+   
       <div className='ml-8 mt-4'>
         <Breadcrumb />
       </div>
@@ -231,7 +220,6 @@ const About = () => {
             <ContactUs/>
 
     </div>
-      <Footer/>
 
     </div>
 </>

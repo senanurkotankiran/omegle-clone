@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Login from '@/app/components/user/Login';
+import Login from '@/app/admin/components/user/Login';
 import { useSession } from 'next-auth/react';
 
 const AdminNavbar2 = () => {

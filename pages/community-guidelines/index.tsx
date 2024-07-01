@@ -3,10 +3,6 @@ import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css'; // Quill editor styles
 import Head from 'next/head';
-import Navbar from '@/app/components/navbar/Navbar';
-import Navbar2 from '@/app/components/navbar2/Navbar2';
-import Footer from '@/app/components/footer/page';
-
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 const CommunityGuidelines = () => {
@@ -115,14 +111,7 @@ const CommunityGuidelines = () => {
             </Head>
         <div>
           
-            <div className="pt-4">
-                <div className="fixed top-0 w-full z-10">
-                    <Navbar />
-                </div>
-                <div className="mt-14 md:mt-16">
-                    <Navbar2 />
-                </div>
-            </div>
+            
             <div className="flex flex-col items-center justify-center mt-8">
                 <div className="min-h-screen">
                     <main className="max-w-4xl mx-auto">
@@ -146,7 +135,6 @@ const CommunityGuidelines = () => {
                         </div>
                     </main>
                 </div>
-                <Footer />
             </div>
         </div>
         </>

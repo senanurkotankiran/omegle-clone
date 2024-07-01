@@ -4,10 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { htmlToText } from 'html-to-text';
 import Head from 'next/head';
-import Navbar from '@/app/components/navbar/Navbar';
-import Navbar2 from '@/app/components/navbar2/Navbar2';
-import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb';
-import Footer from '@/app/components/footer/page';
+import Breadcrumb from '../components/breadcrumb/Breadcrumb';
 
 // URL'leri düzgün hale getiren fonksiyon
 const slugify = (title: string) =>
@@ -183,14 +180,7 @@ const Blog = () => {
       </Head>
 
       <div className="min-h-screen">
-        <div className="pt-4">
-          <div className="fixed top-0 w-full z-10">
-            <Navbar />
-          </div>
-          <div className="mt-14 md:mt-16">
-            <Navbar2 />
-          </div>
-        </div>
+      
         <div>
           <Image src='/blog6.webp' alt='foto' width={1800} height={900} className="mb-4 w-full h-200 opacity-65" />
         </div>
@@ -246,7 +236,6 @@ const Blog = () => {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     </>
   );

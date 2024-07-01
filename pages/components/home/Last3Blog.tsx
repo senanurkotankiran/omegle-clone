@@ -2,7 +2,6 @@
 
 import { htmlToText } from 'html-to-text'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
