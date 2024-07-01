@@ -1,35 +1,33 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from '../components/navbar/Navbar';
-import Navbar2 from '../components/navbar2/Navbar2';
-import Footer from '../components/footer/page';
 import 'react-quill/dist/quill.snow.css'; // Quill editor styles
+import Head from 'next/head';
+import Navbar from '@/app/components/navbar/Navbar';
+import Navbar2 from '@/app/components/navbar2/Navbar2';
+import Footer from '@/app/components/footer/page';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const PrivacyPolicy = () => {
-    interface IPrivacyPolicy {
+const TermsOfServices = () => {
+    interface ITermsOfService {
         _id: string;
         description: string;
         text: string;
         author: string;
     }
 
-    const [privacyPolicies, setPrivacyPolicies] = useState<IPrivacyPolicy[]>([]);
+    const [termsOfServices, setTermsOfServices] = useState<ITermsOfService[]>([]);
 
     useEffect(() => {
-        const fetchPrivacyPolicies = async () => {
-            const res = await fetch('/api/privacypolicy');
+        const fetchTermsOfServices = async () => {
+            const res = await fetch('/api/termsofservice');
             const data = await res.json();
-            setPrivacyPolicies(data);
+            setTermsOfServices(data);
         };
 
-        fetchPrivacyPolicies();
+        fetchTermsOfServices();
     }, []);
-
-
-
 
     const jsonLdWebSite = {
         "@context": "https://schema.org",
@@ -47,7 +45,7 @@ const PrivacyPolicy = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Omegle",
-        "url": "https://omegle-mu.vercel.app/privacy-policy",
+        "url": "https://omegle-mu.vercel.app/terms-of-service",
         "logo": "https://omegle-mu.vercel.app/static/logo.png",
         "sameAs": [
             "https://www.facebook.com/Omegle",
@@ -61,7 +59,7 @@ const PrivacyPolicy = () => {
         "@type": "WebPage",
         "name": "Omegle: Talk to Strangers",
         "description": "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
-        "url": "https://omegle-mu.vercel.app/privacy-policy",
+        "url": "https://omegle-mu.vercel.app/terms-of-service",
     };
 
     const jsonLdBreadcrumb = {
@@ -76,23 +74,21 @@ const PrivacyPolicy = () => {
             }, {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Privacy Policy",
-                "item": "https://omegle-mu.vercel.app/privacy-policy",
+                "name": "Terms OF Service",
+                "item": "https://omegle-mu.vercel.app/terms-of-service",
             },
         ],
     };
 
-
-    const canonicalUrl = 'https://omegle-mu.vercel.app/privacy-policy';
+    const canonicalUrl = 'https://omegle-mu.vercel.app/terms-of-service';
 
 
     return (
         <div>
-            <head>
-                <title>Privacy Policy - Omegle</title>
-                <meta name="description" content="This Privacy Policy describes how [www-omegle] collects, uses, and shares your personal information when you visit our website [https://www-omegle.com]." />
+            <Head>
+                <title>Terms Of Service - Omegle</title>
+                <meta name="description" content="Terms Of Service" />
                 <link rel="canonical" href={canonicalUrl} />
-
 
                 <script
                     id="jsonLdWebSiteId"
@@ -116,8 +112,7 @@ const PrivacyPolicy = () => {
                         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
                     />
                 )}
-            </head>
-
+            </Head>
             <div className="pt-4">
                 <div className="fixed top-0 w-full z-10">
                     <Navbar />
@@ -130,18 +125,20 @@ const PrivacyPolicy = () => {
                 <div className="min-h-screen">
                     <main className="max-w-4xl mx-auto">
                         <div className="text-center">
-                            <h1 className="text-5xl font-bold mb-8">PRIVACY POLICY</h1>
-                            <p className="text-xl text-black mb-12 text-left">This Privacy Policy describes how [www-omegle] collects, uses, and shares your personal information when you visit our website [https://www-omegle.com].</p>
-                            {privacyPolicies.map(item => (
-                                <div key={item._id} className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center w-full">
-                                    <ReactQuill
-                                        value={item.text}
-                                        readOnly={true}
-                                        theme="snow"
-                                        modules={{
-                                            toolbar: false,
-                                        }}
-                                    />
+                            {termsOfServices.map(item => (
+                                <div key={item._id}>
+                                    <h1 className="text-5xl font-bold mb-8">Terms Of Service</h1>
+                                    <p className="text-xl text-black mb-12 text-left">{item.description}</p>
+                                    <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center w-full">
+                                        <ReactQuill
+                                            value={item.text}
+                                            readOnly={true}
+                                            theme="snow"
+                                            modules={{
+                                                toolbar: false,
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -153,4 +150,4 @@ const PrivacyPolicy = () => {
     );
 }
 
-export default PrivacyPolicy;
+export default TermsOfServices;

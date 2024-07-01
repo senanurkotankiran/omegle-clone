@@ -1,14 +1,15 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from '../components/navbar/Navbar';
-import Navbar2 from '../components/navbar2/Navbar2';
-import Footer from '../components/footer/page';
 import 'react-quill/dist/quill.snow.css'; // Quill editor styles
+import Head from 'next/head';
+import Navbar from '@/app/components/navbar/Navbar';
+import Navbar2 from '@/app/components/navbar2/Navbar2';
+import Footer from '@/app/components/footer/page';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const TermsOfServices = () => {
+const CommunityGuidelines = () => {
     interface ITermsOfService {
         _id: string;
         description: string;
@@ -16,16 +17,16 @@ const TermsOfServices = () => {
         author: string;
     }
 
-    const [termsOfServices, setTermsOfServices] = useState<ITermsOfService[]>([]);
+    const [communityGuidelines, setCommunityGuidelines] = useState<ITermsOfService[]>([]);
 
     useEffect(() => {
-        const fetchTermsOfServices = async () => {
-            const res = await fetch('/api/termsofservice');
+        const fetchCommunityGuidelines = async () => {
+            const res = await fetch('/api/communityguidelines');
             const data = await res.json();
-            setTermsOfServices(data);
+            setCommunityGuidelines(data);
         };
 
-        fetchTermsOfServices();
+        fetchCommunityGuidelines();
     }, []);
 
     const jsonLdWebSite = {
@@ -44,7 +45,7 @@ const TermsOfServices = () => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Omegle",
-        "url": "https://omegle-mu.vercel.app/terms-of-service",
+        "url": "https://omegle-mu.vercel.app/community-guidelines",
         "logo": "https://omegle-mu.vercel.app/static/logo.png",
         "sameAs": [
             "https://www.facebook.com/Omegle",
@@ -58,7 +59,7 @@ const TermsOfServices = () => {
         "@type": "WebPage",
         "name": "Omegle: Talk to Strangers",
         "description": "Omegle is just a great way to Video Chat with Girls, meet new people and have a fun time omegle people.",
-        "url": "https://omegle-mu.vercel.app/terms-of-service",
+        "url": "https://omegle-mu.vercel.app/community-guidelines",
     };
 
     const jsonLdBreadcrumb = {
@@ -73,20 +74,20 @@ const TermsOfServices = () => {
             }, {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Terms OF Service",
-                "item": "https://omegle-mu.vercel.app/terms-of-service",
+                "name": "Community Guidelines",
+                "item": "https://omegle-mu.vercel.app/community-guidelines",
             },
         ],
     };
 
-    const canonicalUrl = 'https://omegle-mu.vercel.app/terms-of-service';
-
+    const canonicalUrl = 'https://omegle-mu.vercel.app/community-guidelines';
 
     return (
-        <div>
-            <head>
-                <title>Terms Of Service - Omegle</title>
-                <meta name="description" content="Terms Of Service" />
+        <>
+        
+        <Head>
+                <title>Community Guidelines - Omegle</title>
+                <meta name="description" content="These guidelines are designed to help you create a website www-omegle.com that is informative, engaging, and easy to use. They cover a variety of topics, including: **Content **Design **SEO **Security" />
                 <link rel="canonical" href={canonicalUrl} />
 
                 <script
@@ -111,7 +112,9 @@ const TermsOfServices = () => {
                         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
                     />
                 )}
-            </head>
+            </Head>
+        <div>
+          
             <div className="pt-4">
                 <div className="fixed top-0 w-full z-10">
                     <Navbar />
@@ -124,9 +127,9 @@ const TermsOfServices = () => {
                 <div className="min-h-screen">
                     <main className="max-w-4xl mx-auto">
                         <div className="text-center">
-                            {termsOfServices.map(item => (
+                            {communityGuidelines.map(item => (
                                 <div key={item._id}>
-                                    <h1 className="text-5xl font-bold mb-8">Terms Of Service</h1>
+                                    <h1 className="text-5xl font-bold mb-8">Community Guidelines</h1>
                                     <p className="text-xl text-black mb-12 text-left">{item.description}</p>
                                     <div className="bg-white rounded-lg shadow-lg p-12 mb-16 flex flex-col items-center w-full">
                                         <ReactQuill
@@ -146,7 +149,9 @@ const TermsOfServices = () => {
                 <Footer />
             </div>
         </div>
+        </>
+        
     );
 }
 
-export default TermsOfServices;
+export default CommunityGuidelines;

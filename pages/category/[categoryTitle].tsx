@@ -1,12 +1,13 @@
 "use client"
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import Breadcrumb from '../../components/breadcrumb/Breadcrumb'
 import { useRouter, useParams } from 'next/navigation'
-import Navbar from '../../components/navbar/Navbar'
-import Footer from '../../components/footer/page'
-import Navbar2 from '../../components/navbar2/Navbar2'
 import { htmlToText } from 'html-to-text'
+import Head from 'next/head'
+import Navbar from '@/app/components/navbar/Navbar'
+import Navbar2 from '@/app/components/navbar2/Navbar2'
+import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
+import Footer from '@/app/components/footer/page'
 
 const Category = () => {
   const params = useParams();
@@ -105,13 +106,13 @@ const Category = () => {
 
   return (
     <>
-      <head>
+      <Head>
         <title>{`${decodedTitle} - Omegle Blog`}</title>
         <meta name="description" content={`Blogs under category ${decodedTitle}`} />
         <meta name="keywords" content={`Omegle, blog, ${decodedTitle}`} />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={canonicalUrl} />
-      </head>
+      </Head>
 
       <script
         id='jsonLdWebSiteId'

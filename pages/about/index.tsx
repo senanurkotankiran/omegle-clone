@@ -1,16 +1,16 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import Breadcrumb from '../components/breadcrumb/Breadcrumb'
-import Navbar from '../components/navbar/Navbar'
-import Footer from '../components/footer/page'
-import Navbar2 from '../components/navbar2/Navbar2'
 import Link from 'next/link'
-import ContactUs from '../components/about/ContactUs'
 import { Metadata } from 'next'
 import Head from 'next/head'
+import Navbar from '@/app/components/navbar/Navbar'
+import Navbar2 from '@/app/components/navbar2/Navbar2'
+import Breadcrumb from '@/app/components/breadcrumb/Breadcrumb'
+import ContactUs from '@/app/components/about/ContactUs'
+import Footer from '@/app/components/footer/page'
 
 
-
+/* 
 export const metadata: Metadata = {
   title: "About - Omegle: Talk to strangers!",
   description: "Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other.",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   
 
 
-};
+}; */
 
 const About = () => {
   const jsonLdWebSite = {
@@ -83,9 +83,11 @@ const About = () => {
     
 <>
 
-<head>
+<Head>
 <link rel="canonical" href={canonicalUrl} />
-</head>
+<title>About - Omegle Talk to Strangers</title>
+<meta name="description" content="Omegle is a great place to meet new friends. When you use Omegle, we pick another user at random and let you have a one-on-one chat with each other." />
+<meta name="keywords" content="Omegle, chat, meet new people, secure chat, online friends" />
 
  <script
           id='jsonLdWebSiteId'
@@ -108,6 +110,7 @@ const About = () => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
 
+</Head>
 
 
 <div className="min-h-screen">

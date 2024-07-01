@@ -100,14 +100,19 @@ const BlogDetail = () => {
   };
 
   const handleDelete = async () => {
-    // Delete blog logic
-    await fetch(`/api/blogs/${detailId}`, {
-      method: 'DELETE',
-    });
-    // Redirect or update state to reflect the deletion
-    router.push('/admin/blog/blogList'); // Redirect to the blog list page after deletion
+    try {
+      // Blogu ve ilgili FAQ'ları sil
+      await fetch(`/api/blogs/${detailId}`, {
+        method: 'DELETE',
+      });
+  
+      // Silme işlemi sonrası yönlendirme
+      router.push('/admin/blog/blogList'); // Silme işleminden sonra blog listesine yönlendir
+    } catch (error) {
+      console.error("Error deleting blog or FAQs:", error);
+    }
   };
-
+  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const reader = new FileReader();
