@@ -5,7 +5,6 @@ import Footer from '@/app/components/footer/page';
 import Navbar from '@/app/components/navbar/Navbar';
 import Navbar2 from '@/app/components/navbar2/Navbar2';
 import Image from 'next/image';
-import { format } from 'date-fns';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { htmlToText } from 'html-to-text';
@@ -13,7 +12,7 @@ import { htmlToText } from 'html-to-text';
 interface IBlogItem {
   _id: string;
   title: string;
-  description:string,
+  description: string;
   content: string;
   author: string;
   image: string;
@@ -47,51 +46,46 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     }
   }, [blog]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (blog) {
       if (typeof window !== 'undefined') {
         // Tarayıcıya özgü kod
         const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = blog.content;
+        tempDiv.innerHTML = blog.content;
 
-      const headingsFromContent = Array.from(tempDiv.querySelectorAll('h1, h2, h3'));
-      headingsFromContent.forEach((heading, index) => {
-        const id = `content-heading-${index}`;
-        heading.id = id;
-      });
+        const headingsFromContent = Array.from(tempDiv.querySelectorAll('h1, h2, h3'));
+        headingsFromContent.forEach((heading, index) => {
+          const id = `content-heading-${index}`;
+          heading.id = id;
+        });
 
-      const quillContent = document.querySelector('.quill-content');
-      if (quillContent) {
-        quillContent.innerHTML = tempDiv.innerHTML;
-      }
-
-      const allHeadings = Array.from(document.querySelectorAll('h1, h2, h3'));
-      allHeadings.forEach((heading, index) => {
-        if (!heading.id) {
-          heading.id = `heading-${index}`;
+        const quillContent = document.querySelector('.quill-content');
+        if (quillContent) {
+          quillContent.innerHTML = tempDiv.innerHTML;
         }
-      });
 
-      const updatedHeadings = allHeadings.map((heading) => ({
-        id: heading.id,
-        text: heading.textContent || '',
-      }));
+        const allHeadings = Array.from(document.querySelectorAll('h1, h2, h3'));
+        allHeadings.forEach((heading, index) => {
+          if (!heading.id) {
+            heading.id = `heading-${index}`;
+          }
+        });
 
-      setHeadings(updatedHeadings);
-    }
+        const updatedHeadings = allHeadings.map((heading) => ({
+          id: heading.id,
+          text: heading.textContent || '',
+        }));
+
+        setHeadings(updatedHeadings);
       }
-      
-  }, [blog]); 
+    }
+  }, [blog]);
 
-
-
-  
- 
   const toggleFaq = (id: string) => {
     setOpenIndex(openIndex === id ? null : id);
   };
 
-   const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     const target = document.getElementById(id);
     if (target) {
@@ -103,7 +97,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
       console.error(`Element with id ${id} not found.`);
     }
   };
- 
+
   // Başlıkları URL dostu hale getirir, küçük harf ve kısa çizgi kullanır
   const slugify = (title: string) =>
     title
@@ -222,7 +216,13 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
     ? `https://omegle-mu.vercel.app/blog/${slugify(blog.title)}`
     : 'https://omegle-mu.vercel.app/blog';
 
-    const descriptionTag = blog ? htmlToText(blog.description, { wordwrap: false }) : 'Blog details and more';
+  const descriptionTag = blog ? htmlToText(blog.description, { wordwrap: false }) : 'Blog details and more';
+
+  // Tarih biçimlendirme fonksiyonu
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(date).toLocaleDateString('en-US', options);
+  };
 
   return (
     <>
@@ -300,8 +300,8 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
                 {headings.map((content) => (
                   <li key={content.id} className="text-lg">
                     <a href={`#${content.id}`}
-                    onClick={(e) => handleAnchorClick(e, content.id)}
-                    className="text-white hover:text-blue-600 transition duration-300 capitalize">
+                      onClick={(e) => handleAnchorClick(e, content.id)}
+                      className="text-white hover:text-blue-600 transition duration-300 capitalize">
                       {content.text}
                     </a>
                   </li>
@@ -319,7 +319,7 @@ const BlogDetail = ({ blog, faqs = [] }: BlogDetailProps) => {
               <span className="text-xs pb-8">{blog?.categoryId.name} {'>'} {blog?.title}</span>
               <div className="text-gray-600 text-justify quill-content"></div>
               <span className="w-full items-right text-xs p-8 pb-4 text-gray-700 text-right">
-                {blog?.createdAt && format(new Date(blog.createdAt), 'MMMM dd, yyyy')}
+                {blog?.createdAt && formatDate(blog.createdAt)}
               </span>
               <span className="w-full items-right text-xs pr-8 text-gray-700 text-right capitalize">
                 {blog?.author}
