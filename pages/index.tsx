@@ -1,15 +1,15 @@
-"use client";
 import React, { useEffect, useState } from "react";
-import Breadcrumb from "./components/breadcrumb/Breadcrumb";
-import TestimonialsCarousel from "./components/home/TestimonialCarousel";
-import Last4Blog from "./components/home/Last4Blog";
-import Faqs from "./components/home/Faqs";
-import Agreement from "./components/home/Agreement";
 import Image from "next/image";
-import Navbar from "./components/navbar/Navbar";
-import Navbar2 from "./components/navbar2/Navbar2";
-import Footer from "./components/footer/page";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Navbar from "@/app/components/navbar/Navbar";
+import Navbar2 from "@/app/components/navbar2/Navbar2";
+import Breadcrumb from "@/app/components/breadcrumb/Breadcrumb";
+import Agreement from "@/app/components/home/Agreement";
+import Last3Blog from "@/app/components/home/Last4Blog";
+import Faqs from "@/app/components/home/Faqs";
+import TestimonialsCarousel from "@/app/components/home/TestimonialCarousel";
+import Footer from "@/app/components/footer/page";
 
 interface IFaqItem {
   question: string;
@@ -17,14 +17,17 @@ interface IFaqItem {
   blogId?: string;
 }
 
-const Home = () => {
+interface HomeProps {
+  faqs: IFaqItem[];
+}
+
+const Home: React.FC<HomeProps> = ({ faqs }) => {
   const router = useRouter();
   const handleClick = () => {
     router.push('/ftf');
   };
 
   const [headings, setHeadings] = useState<{ id: string; text: string }[]>([]);
-  const [faqs, setFaqs] = useState<IFaqItem[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -35,9 +38,8 @@ const Home = () => {
         heading.id = id;
         return { id, text: heading.textContent || '' };
       });
-      setHeadings(headingTexts);// Tarayıcıya özgü kod
+      setHeadings(headingTexts);
     }
-
   }, []);
 
   const handleAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -45,21 +47,10 @@ const Home = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    const fetchFaqs = async () => {
-      const res = await fetch('/api/faqs');
-      const data = await res.json();
-      const filteredFaqs = data.filter((faq: IFaqItem) => !faq.blogId);
-      setFaqs(filteredFaqs);
-    };
-
-    fetchFaqs();
-  }, []);
-
-  const faqJsonLd = JSON.stringify({
+  const jsonLdFaqs = faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map((faq: IFaqItem) => ({
+    "mainEntity": faqs.map(faq => ({
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
@@ -67,9 +58,7 @@ const Home = () => {
         "text": faq.answer,
       },
     })),
-  });
-
-  console.log(faqJsonLd)
+  } : null;
 
   const jsonLdWebSite = {
     "@context": "https://schema.org",
@@ -119,41 +108,39 @@ const Home = () => {
 
   const canonicalUrl = 'https://omegle-mu.vercel.app/about';
 
-
   return (
     <>
-    <head>
-<link rel="canonical" href={canonicalUrl} />
-</head>
-      <script
-        id="jsonLdWebSiteId"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
-      />
-      <script
-        id="jsonLdOrganizationId"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
-      />
-      <script
-        id="jsonLdWebPageId"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
-      />
-      {jsonLdBreadcrumb && (
+      <Head>
+        <title>Omegle - Omegle Talk to Strangers!</title>
+        <link rel="canonical" href={canonicalUrl} />
+        <script
+          id="jsonLdWebSiteId"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+        />
+        <script
+          id="jsonLdOrganizationId"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+        />
+        <script
+          id="jsonLdWebPageId"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebPage) }}
+        />
         <script
           id="jsonLdBreadcrumbId"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
         />
-      )}
-      {faqJsonLd && (
-        <script
-          id="jsonLdFaqsId"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: faqJsonLd }}
-        />
-      )}
+        {jsonLdFaqs && (
+          <script
+            id="jsonLdFaqsId"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaqs) }}
+          />
+        )}
+      </Head>
 
       <div className="pt-4">
         <div className="fixed top-0 z-10">
@@ -175,8 +162,7 @@ const Home = () => {
             <p className="text-2xl font-bold">Contents</p>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-white focus:outline-none hover:text-blue-600 "
-            >
+              className="text-white focus:outline-none hover:text-blue-600 ">
               {isOpen ? "[ close ]" : "[ open ]"}
             </button>
           </div>
@@ -186,7 +172,6 @@ const Home = () => {
                 <li key={content.id} className="text-lg">
                   <a href={`#${content.id}`}
                     onClick={(e) => handleAnchorClick(e, content.id)}
-
                     className="text-white hover:text-blue-600 transition duration-300">
                     {content.text}
                   </a>
@@ -219,7 +204,7 @@ const Home = () => {
 
         <section id="last4blog" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
           <h1 className="mb-16 flex justify-center text-3xl font-bold text-white">Recent Blogs</h1>
-          <Last4Blog />
+          <Last3Blog />
         </section>
         <section id="faqs" className="pt-20 max-w-screen-lg w-full mx-auto mb-8 md:mb-16">
           <Faqs />
@@ -246,6 +231,18 @@ const Home = () => {
       <Footer />
     </>
   );
+};
+
+export const getServerSideProps = async () => {
+  const res = await fetch('https://omegle-mu.vercel.app/api/faqs');
+  const data = await res.json();
+  const faqs = data.filter((faq: IFaqItem) => !faq.blogId);
+  
+  return {
+    props: {
+      faqs,
+    },
+  };
 };
 
 export default Home;
